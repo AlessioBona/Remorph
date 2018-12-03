@@ -73,25 +73,40 @@ public class NewLevelEditor : MonoBehaviour {
         {
 
             Debug.Log("I reset symbols");
-            foreach (List<GameObject> row in linesRow)
+            //foreach (List<GameObject> row in linesRow)
+            //{
+
+            //    foreach (GameObject sq in row)
+            //    {
+
+            //        Square2D thisSq = sq.GetComponent<Square2D>();
+            //        if (thisSq.isOn)
+            //        {
+            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)thisSq.icona];
+            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)thisSq.colore];
+            //        }
+            //        if (!thisSq.isOn)
+            //        {
+            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
+            //        }
+
+            //    }
+
+            //}
+
+            Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
+
+            foreach (Square2D square in allSquares)
             {
-
-                foreach (GameObject sq in row)
+                if (square.isOn)
                 {
-                  
-                    Square2D thisSq = sq.GetComponent<Square2D>();
-                    if (thisSq.isOn)
-                    {
-                        thisSq.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)thisSq.icona];
-                        thisSq.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)thisSq.colore];
-                    }
-                    if (!thisSq.isOn)
-                    {
-                        thisSq.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
-                    }
-  
+                    square.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)square.icona];
+                    square.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)square.colore];
                 }
-
+                if (!square.isOn)
+                {
+                    square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
+                }
             }
 
         }

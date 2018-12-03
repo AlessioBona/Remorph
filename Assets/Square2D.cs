@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
+
 public class Square2D : MonoBehaviour {
 
     public int rowNumber;

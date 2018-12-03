@@ -5,14 +5,19 @@ using UnityEngine;
 public class NewRoundManager : MonoBehaviour {
 
     public Camera activeCamera;
+    public GameObject boardBG;
 
     public GameObject player;
+    public GameObject endCopy;
+    public GameObject reference;
     public NewPlayer playerScript;
     public GameObject LevEdiObject;
     NewLevelEditor levelEditor;
     Sprite[] sprites;
     Color[] spriteColors;
     Color transparent;
+    public Color endCopyColor;
+    public Color referenceColor;
 
 
     public GameObject squaresParent;
@@ -32,111 +37,73 @@ public class NewRoundManager : MonoBehaviour {
         levelEditor = LevEdiObject.GetComponent<NewLevelEditor>();
         playerScript = player.GetComponent<NewPlayer>();
         playerScript.squaresParent = squaresParent;
-        playerScript.columns = columns;
-        playerScript.rows = rows;
+
         sprites = levelEditor.sprites;
         spriteColors = levelEditor.spriteColors;
         transparent = levelEditor.transparent;
         rows = levelEditor.rows;
         columns = levelEditor.columns;
-        ComposeLevel();
+        playerScript.columns = columns;
+        playerScript.rows = rows;
+
         Reset();
-	}
+        ComposeLevel();
+    }
 
     void ComposeLevel()
     {
+        //set board Dimension
+        boardBG.transform.localScale = new Vector3(
+            (columns * 200f)*1.2f,
+            (rows * 200f)*1.2f,
+            0f);
 
-        //GameObject[] toDestroy = GameObject.FindGameObjectsWithTag("square");
-        //for (int d = 0; d < toDestroy.Length; d++)
-        //{
-        //    GameObject.DestroyImmediate(toDestroy[d]);
-        //}
-
-        ////foreach (List<GameObject> row in linesRow)
-        ////{
-        ////    foreach (GameObject sq in row)
-        ////    {
-        ////        GameObject.DestroyImmediate(sq);
-        ////    }
-        ////}
-
-        //linesRow = new List<List<GameObject>>();
-
-        //for (int r = 0; r < rows; r++)
-        //{
-        //    List<GameObject> newRow = new List<GameObject>();
-        //    linesRow.Add(newRow);
-
-        //    for (int c = 0; c < columns; c++)
-        //    {
-        //        Vector3 newPosition = new Vector3(0f, 0f, 0f);
-        //        newPosition.x += (columns - 1) * -2f + c * 4f;
-        //        newPosition.y += (rows - 1) * -2f + r * 4f;
-        //        GameObject newSquare = Instantiate(squarePrefab, newPosition, squarePrefab.transform.rotation, squaresParent.transform);
-        //        linesRow[r].Add(newSquare);
-        //    }
-        //}
-
-
-        // THIS WORKS!!!
-
-        //Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
-
-        //foreach (Square2D square in allSquares)
-        //{
-        //    if (square.isOn)
-        //    {
-
-        //        square.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)square.icona];
-        //        square.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)square.colore];
-        //    }
-        //    if (!square.isOn)
-        //    {
-        //        square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
-        //    }
-        //}
-
-
-
-
-            //for (int r = 0; r < linesRow.Count; r++)
-            //{
-            //    for (int c = 0; c < linesRow[r].Count; c++)
-            //      {
-            //    Square2D thisSq = linesRow[r][c].GetComponent<Square2D>();
-            //    if (squaresData[r][c][0] == 1)
-            //    {
-
-            //        thisSq.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[squaresData[r][c][1]];
-            //        thisSq.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[squaresData[r][c][2]];
-            //    }
-            //    if (squaresData[r][c][0] == 0)
-            //    {
-            //        thisSq.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
-            //    }
-            //}
-
-            //}
-
-            //foreach (List<GameObject> row in linesRow)
-            //{
-            //    foreach (GameObject sq in row)
-            //    {
-            //        Square2D thisSq = sq.GetComponent<Square2D>();
-            //        if (thisSq.isOn)
-            //        {
-
-            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)thisSq.icona];
-            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)thisSq.colore];
-            //        }
-            //        if (!thisSq.isOn)
-            //        {
-            //            thisSq.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
-            //        }
-            //    }
-            //}
+        //create EndCopy
+        endCopy = Instantiate(player);
+        endCopy.GetComponent<NewPlayer>().isPlayer = false;
+        SpriteRenderer[] endRend = endCopy.GetComponentsInChildren<SpriteRenderer>();
+        foreach(SpriteRenderer rend in endRend)
+        {
+            rend.color = endCopyColor;
+            rend.sortingOrder = rend.sortingOrder - 1;
 
         }
+
+        Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
+
+        foreach (Square2D square in allSquares)
+        {
+            if (square.colNumber == columns-1 && square.rowNumber == rows-1)
+            {
+                endCopy.transform.position = square.transform.position;
+                endCopy.GetComponent<NewPlayer>().moveTo = square.transform.position;
+
+            }
+
+        }
+
+        //create Reference
+        reference = Instantiate(player);
+        reference.GetComponent<NewPlayer>().isPlayer = false;
+        SpriteRenderer[] refRend = reference.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer rend in refRend)
+        {
+            rend.color = transparent;
+            rend.sortingOrder = rend.sortingOrder - 2;
+        }
+        
+
+
+    }
+
+    void SwitchReferenceColor(Color color)
+    {
+        SpriteRenderer[] refRend = reference.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer rend in refRend)
+        {
+            rend.color = color;
+        }
+    }
 
 	
 	// Update is called once per frame
@@ -152,7 +119,13 @@ public class NewRoundManager : MonoBehaviour {
         {
             if (square.colNumber == 0 && square.rowNumber == 0)
             {
+                player.GetComponent<NewPlayer>().moveTo = square.transform.position;
                 player.transform.position = square.transform.position;
+                player.GetComponent<NewPlayer>().moveTo = square.transform.position;
+                player.GetComponent<NewPlayer>().canMove = true;
+                player.GetComponent<NewPlayer>().oldTrans = null;
+
+
                 player.GetComponent<NewPlayer>().xPos = 0;
                 player.GetComponent<NewPlayer>().yPos = 0;
             }
@@ -266,12 +239,11 @@ public class NewRoundManager : MonoBehaviour {
 
         if (on)
         {
-
+            SwitchReferenceColor(transparent);
             foreach (Square2D square in allSquares)
             {
                 if (square.isOn)
                 {
-
                     square.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)square.icona];
                     square.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)square.colore];
                 }
@@ -285,6 +257,9 @@ public class NewRoundManager : MonoBehaviour {
             foreach (Square2D square in allSquares)
             {
                 square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
+                SwitchReferenceColor(referenceColor);
+                reference.transform.position = playerScript.moveTo;
+                
             }
 
         }

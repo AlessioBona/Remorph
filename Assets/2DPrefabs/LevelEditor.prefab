@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1757213321363746}
+  m_IsPrefabAsset: 1
+--- !u!1 &1757213321363746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4741905128101056}
+  - component: {fileID: 114420720099538142}
+  m_Layer: 0
+  m_Name: LevelEditor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4741905128101056
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757213321363746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114420720099538142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1757213321363746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b48e3f6a7578bf48b0b3b6a99f9c037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roundManager: {fileID: 0}
+  firstSquarePosition: {fileID: 0}
+  squaresParent: {fileID: 0}
+  squarePrefab: {fileID: 1524437301592908, guid: 65e80a316d95efb47a21c28936bc4977,
+    type: 2}
+  columns: 7
+  rows: 2
+  resetSquares: 0
+  resetSymbols: 0
+  sprites:
+  - {fileID: 21300000, guid: 22552856ad82b463a99791768b620dac, type: 3}
+  - {fileID: 21300000, guid: 083b79cd6280b4186beaea0a39352110, type: 3}
+  - {fileID: 21300000, guid: 060adfd2a55e84dc6bec54b7f04839b5, type: 3}
+  - {fileID: 21300000, guid: 398e59185ad0b4cc1b040f9ccbe85f60, type: 3}
+  - {fileID: 21300000, guid: dcf26cd11eb408c42a5f48eeded4832b, type: 3}
+  - {fileID: 21300000, guid: 08e249fa737d8ea40a0e0e42ff4b5ac3, type: 3}
+  - {fileID: 21300000, guid: bcf9928bab0c225449f817d7b1a25c08, type: 3}
+  - {fileID: 21300000, guid: 4115701470f035044aee340ff80a7d03, type: 3}
+  spriteColors:
+  - {r: 1, g: 0.00000014901161, b: 0, a: 0.6862745}
+  - {r: 0, g: 0.41719317, b: 1, a: 0.6901961}
+  - {r: 0.990566, g: 0.8120152, b: 0, a: 0.6901961}
+  transparent: {r: 1, g: 1, b: 1, a: 0}

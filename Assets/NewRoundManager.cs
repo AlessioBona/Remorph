@@ -46,16 +46,17 @@ public class NewRoundManager : MonoBehaviour {
         playerScript.columns = columns;
         playerScript.rows = rows;
 
-        Reset();
         ComposeLevel();
+        Reset();
+
     }
 
     void ComposeLevel()
     {
         //set board Dimension
         boardBG.transform.localScale = new Vector3(
-            (columns * 200f)*1.2f,
-            (rows * 200f)*1.2f,
+            (columns * 200f) + 80f,
+            (rows * 200f) + 80f,
             0f);
 
         //create EndCopy
@@ -121,13 +122,16 @@ public class NewRoundManager : MonoBehaviour {
             {
                 player.GetComponent<NewPlayer>().moveTo = square.transform.position;
                 player.transform.position = square.transform.position;
-                player.GetComponent<NewPlayer>().moveTo = square.transform.position;
+                reference.GetComponent<NewPlayer>().moveTo = square.transform.position;
+                reference.transform.position = square.transform.position;
                 player.GetComponent<NewPlayer>().canMove = true;
                 player.GetComponent<NewPlayer>().oldTrans = null;
 
 
                 player.GetComponent<NewPlayer>().xPos = 0;
                 player.GetComponent<NewPlayer>().yPos = 0;
+
+                player.GetComponent<NewPlayer>().Reset();
             }
             
         }

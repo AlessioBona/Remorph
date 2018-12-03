@@ -30,7 +30,7 @@ public class NewPlayer : MonoBehaviour {
     int colorToTransform;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         partsPos = new Vector3[3];
         partsPos[0] = parts[0].transform.localPosition;
         partsPos[1] = parts[1].transform.localPosition;
@@ -40,9 +40,19 @@ public class NewPlayer : MonoBehaviour {
         partsDim[1] = parts[1].transform.localScale;
         partsDim[2] = parts[2].transform.localScale;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void Reset()
+    {
+        for(int i = 0; i < parts.Length; i++)
+        {
+            parts[i].transform.localPosition = partsPos[i];
+            parts[i].transform.localScale = partsDim[i];
+        }
+ 
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (isPlayer)
         {
 

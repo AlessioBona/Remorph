@@ -36,19 +36,22 @@ public class NewPlayer : MonoBehaviour {
 
     public void Move(int x, int y)
     {
+        
         int newX = xPos + x;
         int newY = yPos + y;
-        if (newX > 0 && newX < columns && newY > 0 && newY < rows) { 
+        Debug.Log(newX);
+        if (newX >= 0 && newX < columns && newY >= 0 && newY < rows) {
+
+            xPos = newX;
+            yPos = newY;
 
             Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 
             foreach (Square2D square in allSquares)
             {
-                if (square.colNumber == newX && square.rowNumber == newY)
+                if (square.colNumber == xPos && square.rowNumber == yPos)
                 {
-                    transform.position = square.transform.position;
-                    xPos = newX;
-                    yPos = newY;
+                    gameObject.transform.position = square.transform.position;
                 }
 
             }

@@ -347,14 +347,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf971f93ba27ea4bb834da652ba506a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeCamera: {fileID: 2124196120}
   player: {fileID: 223061412}
   playerScript: {fileID: 0}
   LevEdiObject: {fileID: 678482975}
   squaresParent: {fileID: 973302213}
   squarePrefab: {fileID: 1524437301592908, guid: 65e80a316d95efb47a21c28936bc4977,
     type: 2}
-  columns: 0
-  rows: 0
+  columns: 6
+  rows: 3
 --- !u!4 &128859750
 Transform:
   m_ObjectHideFlags: 0
@@ -1193,7 +1194,7 @@ Transform:
   m_GameObject: {fileID: 629329020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3000, y: 1500, z: 1}
+  m_LocalScale: {x: 4000, y: 2000, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

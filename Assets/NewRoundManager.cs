@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NewRoundManager : MonoBehaviour {
 
+    public Camera activeCamera;
+
     public GameObject player;
     public NewPlayer playerScript;
     public GameObject LevEdiObject;
@@ -176,6 +178,7 @@ public class NewRoundManager : MonoBehaviour {
 
                 if (Mathf.Abs(touchPositionDifference.x) > 200f || Mathf.Abs(touchPositionDifference.y) > 200f)
                 {
+
                     if (Mathf.Abs(touchPositionDifference.x) > Mathf.Abs(touchPositionDifference.y))
                     {
                         if (iconsOn)
@@ -216,9 +219,74 @@ public class NewRoundManager : MonoBehaviour {
                             }
                         }
                     }
+
+
+                    
+                }
+            }
+
+            if (Input.touchCount > 1)
+            {
+                Touch touch_1 = Input.GetTouch(1);
+                if (touch_1.phase == TouchPhase.Began)
+                {
+                    Debug.Log("two");
+                    if (iconsOn)
+                    {
+                        ToggleZoom(false);
+                        //TurnIconsOff();
+                        //instructions.SetActive(true);
+                        //reference.transform.position = player.transform.position;
+                        //reference.SetActive(true);
+                        //theCamera.transform.position = new Vector3(player.transform.position.x, theCamera.transform.position.y, player.transform.position.z);
+                        //theCamera.orthographicSize = 6f;
+                    }
+                    else
+                    {
+                        ToggleZoom(true);
+                        //instructions.SetActive(false);
+                        //updateIcons();
+                        //reference.SetActive(false);
+                        //theCamera.transform.position = cameraOriginal;
+                        //theCamera.orthographicSize = originalZoom;
+                    }
+                    iconsOn = !iconsOn;
+
+
                 }
 
             }
+
+        }
+    }
+
+    void ToggleZoom(bool on)
+    {
+        Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
+
+        if (on)
+        {
+
+            foreach (Square2D square in allSquares)
+            {
+                if (square.isOn)
+                {
+
+                    square.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)square.icona];
+                    square.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)square.colore];
+                }
+                if (!square.isOn)
+                {
+                    square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
+                }
+            }
+        }
+        if (!on) {
+            foreach (Square2D square in allSquares)
+            {
+                square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
+            }
+
         }
     }
 }

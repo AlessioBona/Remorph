@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Square2D : MonoBehaviour {
 
+    public int rowNumber;
+    public int colNumber;
+
     public GameObject backGround;
     public GameObject iconSprite;
 

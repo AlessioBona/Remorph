@@ -8,9 +8,12 @@ using UnityEngine.UI;
 
 public class NewLevelEditor : MonoBehaviour {
 
+    public NewRoundManager roundManager;
+
     public GameObject firstSquarePosition;
     public GameObject squaresParent;
     public GameObject squarePrefab;
+
 
     public List<List<GameObject>> linesRow = new List<List<GameObject>>();
     public int columns;
@@ -26,7 +29,6 @@ public class NewLevelEditor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
 	}
 	
 	// Update is called once per frame
@@ -61,21 +63,25 @@ public class NewLevelEditor : MonoBehaviour {
                     newPosition.y += (rows-1) * -2f + r * 4f;
                     GameObject newSquare = Instantiate(squarePrefab, newPosition, squarePrefab.transform.rotation, squaresParent.transform);
                     linesRow[r].Add(newSquare);
+                    newSquare.GetComponent<Square2D>().rowNumber = r;
+                    newSquare.GetComponent<Square2D>().colNumber = c;
                 }
             }
         }
 
-        if (resetSymbols)
+        if (resetSymbols) 
         {
+
             Debug.Log("I reset symbols");
             foreach (List<GameObject> row in linesRow)
             {
+
                 foreach (GameObject sq in row)
                 {
+                  
                     Square2D thisSq = sq.GetComponent<Square2D>();
                     if (thisSq.isOn)
                     {
-                        
                         thisSq.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)thisSq.icona];
                         thisSq.iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[(int)thisSq.colore];
                     }
@@ -83,8 +89,11 @@ public class NewLevelEditor : MonoBehaviour {
                     {
                         thisSq.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
                     }
+  
                 }
+
             }
+
         }
     }
 }

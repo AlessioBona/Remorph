@@ -11,6 +11,7 @@ public class NewRoundManager : MonoBehaviour {
     public GameObject player;
     public GameObject endCopy;
     public GameObject reference;
+    public GameObject simulacraParent;
     public NewPlayer playerScript;
     public GameObject LevEdiObject;
     NewLevelEditor levelEditor;
@@ -62,6 +63,7 @@ public class NewRoundManager : MonoBehaviour {
 
         //create EndCopy
         endCopy = Instantiate(player);
+        endCopy.transform.SetParent(simulacraParent.transform);
         endCopy.GetComponent<NewPlayer>().isPlayer = false;
         SpriteRenderer[] endRend = endCopy.GetComponentsInChildren<SpriteRenderer>();
         foreach(SpriteRenderer rend in endRend)
@@ -86,6 +88,7 @@ public class NewRoundManager : MonoBehaviour {
 
         //create Reference
         reference = Instantiate(player);
+        reference.transform.SetParent(simulacraParent.transform);
         reference.GetComponent<NewPlayer>().isPlayer = false;
         SpriteRenderer[] refRend = reference.GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer rend in refRend)
@@ -211,7 +214,8 @@ public class NewRoundManager : MonoBehaviour {
                     Debug.Log("two");
                     if (iconsOn)
                     {
-                        ToggleZoom(false);
+                        TurnIconsOn(false);
+                        UIManager.ShowUiElement("InGame", "MyUI");
                         //TurnIconsOff();
                         //instructions.SetActive(true);
                         //reference.transform.position = player.transform.position;
@@ -221,7 +225,8 @@ public class NewRoundManager : MonoBehaviour {
                     }
                     else
                     {
-                        ToggleZoom(true);
+                        TurnIconsOn(true);
+                        UIManager.HideUiElement("InGame", "MyUI");
                         //instructions.SetActive(false);
                         //updateIcons();
                         //reference.SetActive(false);
@@ -238,7 +243,7 @@ public class NewRoundManager : MonoBehaviour {
         }
     }
 
-    void ToggleZoom(bool on)
+    void TurnIconsOn(bool on)
     {
         Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 

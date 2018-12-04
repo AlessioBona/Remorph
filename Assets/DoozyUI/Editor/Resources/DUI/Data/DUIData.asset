@@ -39,9 +39,10 @@ MonoBehaviour:
     categories:
     - categoryName: MyUI
       itemNames:
-      - 
       - Back
       - Play
+      - QuitLevel
+      - Reset
       - Settings
       isExpanded:
         m_Target: 1

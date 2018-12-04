@@ -663,7 +663,8 @@ PlayerSettings:
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    7: dUI_DoozyUI;dUI_TextMeshPro
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

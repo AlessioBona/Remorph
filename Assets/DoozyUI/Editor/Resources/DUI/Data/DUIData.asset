@@ -13,98 +13,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DatabaseUIElements:
     categories:
-    - categoryName: Example 1 - SimpleScene
+    - categoryName: MyUI
       itemNames:
+      - InGame
+      - LevelSelect
       - MainMenu
-      - Menu 1
-      - Menu 2
-      - Menu 3
+      - Settings
+      - Tutorial
       isExpanded:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
-    - categoryName: Example 2 - OrientationManager
+        m_Value: 1
+    - categoryName: Uncategorized
       itemNames:
-      - MainMenu
-      - SecondMenu
-      isExpanded:
-        m_Target: 0
-        speed: 2
-        m_Value: 0
-    - categoryName: Example 3 - Buttons
-      itemNames:
-      - 1
-      - 2
-      - 3
-      isExpanded:
-        m_Target: 0
-        speed: 2
-        m_Value: 0
-    - categoryName: Example 4 - Simple UI
-      itemNames:
-      - LeftMenu
-      - LoseMenu
-      - MainMenu
-      - PlayMenu
-      - StartMenu
-      - WinMenu
+      - ~Element Name~
       isExpanded:
         m_Target: 0
         speed: 2
         m_Value: 0
     categoryNames:
     - ~Custom Name~
-    - Example 1 - SimpleScene
-    - Example 2 - OrientationManager
-    - Example 3 - Buttons
-    - Example 4 - Simple UI
+    - MyUI
+    - Uncategorized
   DatabaseUIButtons:
     categories:
-    - categoryName: Example 1 - SimpleScene
-      itemNames:
-      - 1
-      - 2
-      - 3
-      - Back
+    - categoryName: Back
+      itemNames: []
       isExpanded:
         m_Target: 0
         speed: 2
         m_Value: 0
-    - categoryName: Example 2 - OrientationManager
-      itemNames:
-      - Back
-      - SecondMenu
+    - categoryName: Start
+      itemNames: []
       isExpanded:
         m_Target: 0
         speed: 2
         m_Value: 0
-    - categoryName: Example 3 - Buttons
+    - categoryName: Uncategorized
       itemNames:
-      - Next
-      - Previous
-      isExpanded:
-        m_Target: 0
-        speed: 2
-        m_Value: 0
-    - categoryName: Example 4 - Simple UI
-      itemNames:
-      - ApplicationQuit
-      - Continue
-      - LoseGame
-      - Play
-      - Start
-      - WinGame
+      - ~Button Name~
       isExpanded:
         m_Target: 0
         speed: 2
         m_Value: 0
     categoryNames:
     - ~Custom Name~
-    - Example 1 - SimpleScene
-    - Example 2 - OrientationManager
-    - Example 3 - Buttons
-    - Example 4 - Simple UI
-  DatabaseUICanvases: []
+    - Back
+    - Start
+    - Uncategorized
+  DatabaseUICanvases:
+  - MasterCanvas
   DatabaseUISounds:
     sounds:
     - {fileID: 11400000, guid: 59de0091c9523d146a71bf3e2f187753, type: 2}

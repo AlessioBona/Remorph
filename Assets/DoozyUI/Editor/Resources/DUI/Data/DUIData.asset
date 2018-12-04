@@ -37,18 +37,16 @@ MonoBehaviour:
     - Uncategorized
   DatabaseUIButtons:
     categories:
-    - categoryName: Back
-      itemNames: []
+    - categoryName: MyUI
+      itemNames:
+      - 
+      - Back
+      - Play
+      - Settings
       isExpanded:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
-    - categoryName: Start
-      itemNames: []
-      isExpanded:
-        m_Target: 0
-        speed: 2
-        m_Value: 0
+        m_Value: 1
     - categoryName: Uncategorized
       itemNames:
       - ~Button Name~
@@ -58,8 +56,7 @@ MonoBehaviour:
         m_Value: 0
     categoryNames:
     - ~Custom Name~
-    - Back
-    - Start
+    - MyUI
     - Uncategorized
   DatabaseUICanvases:
   - MasterCanvas

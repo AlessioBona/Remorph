@@ -116,7 +116,7 @@ public class NewRoundManager : MonoBehaviour {
         Touch();
 	}
 
-    private void Reset()
+    public void Reset()
     {
         Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 

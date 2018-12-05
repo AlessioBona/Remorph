@@ -9,6 +9,8 @@ TagManager:
   - row_2
   - row_3
   - row_4
+  - squareBG
+  - LevelCamera
   layers:
   - Default
   - TransparentFX

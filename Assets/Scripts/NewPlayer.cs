@@ -8,6 +8,7 @@ public class NewPlayer : MonoBehaviour {
     public int columns;
     public int rows;
     public GameObject[] parts;
+    public Transform RayCaster;
 
     public bool isPlayer;
 
@@ -71,8 +72,6 @@ public class NewPlayer : MonoBehaviour {
                 gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, moveTo, tranSpeed);
             }
 
-
-
             if (oldTrans != null && oldTrans.localPosition != newTransPos && gameObject.transform.position == moveTo)
             {
                 parts[colorToTransform].transform.localPosition = Vector3.MoveTowards(parts[colorToTransform].transform.localPosition, newTransPos, shiftSpeed);
@@ -96,7 +95,6 @@ public class NewPlayer : MonoBehaviour {
             if (newX >= 0 && newX < columns && newY >= 0 && newY < rows)
             {
 
-
                 Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 
                 foreach (Square2D square in allSquares)
@@ -106,6 +104,7 @@ public class NewPlayer : MonoBehaviour {
                         moveTo = square.transform.position;
                         xPos = newX;
                         yPos = newY;
+                        FindObjectOfType<NewRoundManager>().CheckWin();
 
                         if (square.isOn)
                         {

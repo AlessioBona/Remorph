@@ -20,6 +20,7 @@ public class NewLevelEditor : MonoBehaviour {
     public int rows;
 
     public bool resetSquares = false;
+    public bool changeSquaresBG = false;
     public bool resetSymbols = false;
 
     public Sprite[] sprites;
@@ -33,6 +34,18 @@ public class NewLevelEditor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (changeSquaresBG)
+        {
+            Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
+
+            foreach (Square2D square in allSquares)
+            {
+                square.backGround.GetComponent<SpriteRenderer>().sprite = squarePrefab.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().sprite;
+            }
+
+        }
+
         if (resetSquares)
         {
             GameObject[] toDestroy = GameObject.FindGameObjectsWithTag("square");

@@ -34,6 +34,14 @@ public class NewRoundManager : MonoBehaviour {
     Vector2 touchPositionStart;
     bool iconsOn = true;
 
+    private void Awake()
+    {
+        if (GameObject.FindGameObjectWithTag("MainCamera"))
+        {
+            GameObject.FindGameObjectWithTag("LevelCamera").SetActive(false);
+        }
+    }
+
     // Use this for initialization
     void Start () {
         levelEditor = LevEdiObject.GetComponent<NewLevelEditor>();
@@ -51,6 +59,37 @@ public class NewRoundManager : MonoBehaviour {
         ComposeLevel();
         Reset();
 
+    }
+
+
+    public void CheckWin()
+    {
+        Vector3 rayStart = playerScript.RayCaster.localPosition;
+        List<RaycastHit2D> hitList = new List<RaycastHit2D>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            playerScript.RayCaster.localPosition += new Vector3(+.25f, 0f, 0f);
+
+            for (int a = 0; a < 6; a++)
+            {
+                playerScript.RayCaster.localPosition += new Vector3(0f, +.25f, 0f);
+                RaycastHit2D hit = Physics2D.Raycast(playerScript.RayCaster.position, -Vector2.up);
+                hitList.Add(hit);
+            }
+        }
+        Debug.Log(hitList.Count);
+
+        foreach(RaycastHit2D hit in hitList)
+        {
+            if (hit.collider)
+            {
+                if (hit.collider.gameObject.tag == "endCopy")
+                {
+                    Debug.Log("it's a copy");
+                }
+            }
+        }
     }
 
     void ComposeLevel()

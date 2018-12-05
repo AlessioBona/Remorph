@@ -26,8 +26,15 @@ public class NewRoundManager : MonoBehaviour {
     public GameObject squarePrefab;
     //public List<GameObject> squaresLine;
     //public List<List<GameObject>> linesRow = new List<List<GameObject>>();
+
     public int columns;
     public int rows;
+
+    public int startCol;
+    public int startRow;
+
+    public int endCol;
+    public int endRow;
 
     public List<List<int[]>> squaresData = new List<List<int[]>>();
 
@@ -56,16 +63,53 @@ public class NewRoundManager : MonoBehaviour {
         playerScript.columns = columns;
         playerScript.rows = rows;
 
-        ComposeLevel();
+        //ComposeLevel(columns, rows);
+        reference = GameObject.FindGameObjectWithTag("reference");
+        endCopy = GameObject.FindGameObjectWithTag("endCopy");
         Reset();
 
         rayStart = playerScript.RayCaster.localPosition;
+        CreateRayArray();
     }
 
     Vector3 rayStart;
+    List<bool> raySave = new List<bool>();
+
+    public void CreateRayArray()
+    {
+        playerScript.RayCaster.localPosition = rayStart;
+
+        for (int i = 0; i < 8; i++)
+        {
+            playerScript.RayCaster.localPosition += new Vector3(+.5f, 0f, 0f);
+
+            for (int a = 0; a < 8; a++)
+            {
+                RaycastHit hit;
+
+                playerScript.RayCaster.localPosition += new Vector3(0f, +.5f, 0f);
+                Debug.DrawRay(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 10f), Color.green);
+
+                if (Physics.Raycast(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 2f), out hit))
+                {
+
+                    raySave.Add(true);
+                }
+                else
+                {
+                    raySave.Add(false);
+                }
+            }
+
+            playerScript.RayCaster.localPosition += new Vector3(0f, -4f, 0f);
+        }
+    }
 
     public void CheckWin()
     {
+
+        List<bool> rayCheck = new List<bool>();
+
         List<RaycastHit> hitList = new List<RaycastHit>();
         playerScript.RayCaster.localPosition = rayStart;
 
@@ -79,9 +123,14 @@ public class NewRoundManager : MonoBehaviour {
                 
                 playerScript.RayCaster.localPosition += new Vector3(0f, +.5f, 0f);
                 Debug.DrawRay(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 10f), Color.green);
+
                 if (Physics.Raycast(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 2f), out hit)){
                     hitList.Add(hit);
-                } 
+                    rayCheck.Add(true);
+                }  else
+                {
+                    rayCheck.Add(false);
+                }
             }
 
             playerScript.RayCaster.localPosition += new Vector3(0f, -4f, 0f);
@@ -103,15 +152,32 @@ public class NewRoundManager : MonoBehaviour {
         }
 
         Debug.Log("player rays: " + pla + " - end rays: " + end);
+        Debug.Log(rayCheck);
+
+        for (int i=0; i<raySave.Count; i++)
+        {
+            if(raySave[i] != rayCheck[i])
+            {
+                Debug.Log("IT'S WROOONG!!!");
+                return;
+            }
+        }
+        if(end > 0)
+        {
+            Debug.Log("IT'S WROOONG!!!");
+            return;
+        }
+        // IF IT RETURNS, NOTHING AFTER THIS LINE IS PLAYED!
+        Debug.Log("I WOOOOON!!!");
 
     }
 
-    void ComposeLevel()
+    public void ComposeLevel(int c, int r)
     {
         //set board Dimension
         boardBG.transform.localScale = new Vector3(
-            (columns * 200f) + 80f,
-            (rows * 200f) + 80f,
+            (c * 200f) + 80f,
+            (r * 200f) + 80f,
             0f);
 
         //create EndCopy
@@ -144,6 +210,7 @@ public class NewRoundManager : MonoBehaviour {
 
         //create Reference
         reference = Instantiate(player);
+        reference.tag = "reference";
         reference.transform.SetParent(simulacraParent.transform);
         reference.GetComponent<NewPlayer>().isPlayer = false;
         SpriteRenderer[] refRend = reference.GetComponentsInChildren<SpriteRenderer>();
@@ -153,6 +220,7 @@ public class NewRoundManager : MonoBehaviour {
             rend.sortingOrder = rend.sortingOrder - 2;
         }
 
+        
 
 
     }

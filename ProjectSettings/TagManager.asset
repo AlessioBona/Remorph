@@ -12,6 +12,8 @@ TagManager:
   - squareBG
   - LevelCamera
   - endCopy
+  - Simulacra
+  - reference
   layers:
   - Default
   - TransparentFX

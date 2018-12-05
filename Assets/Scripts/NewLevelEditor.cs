@@ -10,7 +10,7 @@ public class NewLevelEditor : MonoBehaviour {
 
     public NewRoundManager roundManager;
 
-    public GameObject firstSquarePosition;
+    public GameObject player;
     public GameObject squaresParent;
     public GameObject squarePrefab;
 
@@ -18,6 +18,12 @@ public class NewLevelEditor : MonoBehaviour {
     public List<List<GameObject>> linesRow = new List<List<GameObject>>();
     public int columns;
     public int rows;
+
+    public int startCol;
+    public int startRow;
+
+    public int endCol;
+    public int endRow;
 
     public bool resetSquares = false;
     public bool changeSquaresBG = false;
@@ -54,6 +60,19 @@ public class NewLevelEditor : MonoBehaviour {
                 GameObject.DestroyImmediate(toDestroy[d]);
             }
 
+            GameObject[] alsoToDestroy = GameObject.FindGameObjectsWithTag("endCopy");
+            for (int d = 0; d < alsoToDestroy.Length; d++)
+            {
+                GameObject.DestroyImmediate(alsoToDestroy[d]);
+            }
+
+            GameObject[] alsoToDestroy2 = GameObject.FindGameObjectsWithTag("reference");
+            for (int d = 0; d < alsoToDestroy2.Length; d++)
+            {
+                GameObject.DestroyImmediate(alsoToDestroy2[d]);
+            }
+
+
             //foreach (List<GameObject> row in linesRow)
             //{
             //    foreach (GameObject sq in row)
@@ -80,6 +99,8 @@ public class NewLevelEditor : MonoBehaviour {
                     newSquare.GetComponent<Square2D>().colNumber = c;
                 }
             }
+
+            roundManager.ComposeLevel(columns, rows);
         }
 
         if (resetSymbols) 
@@ -107,10 +128,23 @@ public class NewLevelEditor : MonoBehaviour {
 
             //}
 
+            
+
             Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 
             foreach (Square2D square in allSquares)
             {
+
+                if(square.colNumber == startCol && square.rowNumber == startRow)
+                {
+                    player.transform.position = square.transform.position;
+                }
+                if (square.colNumber == endCol && square.rowNumber == endRow)
+                {
+                    GameObject.FindGameObjectWithTag("endCopy").transform.position = square.transform.position;
+                }
+
+
                 if (square.isOn)
                 {
                     square.iconSprite.GetComponent<SpriteRenderer>().sprite = sprites[(int)square.icona];

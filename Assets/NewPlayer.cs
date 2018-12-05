@@ -96,16 +96,16 @@ public class NewPlayer : MonoBehaviour {
             if (newX >= 0 && newX < columns && newY >= 0 && newY < rows)
             {
 
-                xPos = newX;
-                yPos = newY;
 
                 Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 
                 foreach (Square2D square in allSquares)
                 {
-                    if (square.colNumber == xPos && square.rowNumber == yPos)
+                    if (square.colNumber == newX && square.rowNumber == newY)
                     {
                         moveTo = square.transform.position;
+                        xPos = newX;
+                        yPos = newY;
 
                         if (square.isOn)
                         {

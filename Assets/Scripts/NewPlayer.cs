@@ -42,6 +42,14 @@ public class NewPlayer : MonoBehaviour {
         partsDim[2] = parts[2].transform.localScale;
     }
 
+    public void MoveUpForRaycast()
+    {
+        for (int i = 0; i < parts.Length; i++)
+        {
+            parts[i].transform.localPosition += new Vector3(0f, 0f, -2f);
+        }
+    }
+
     public void Reset()
     {
         for(int i = 0; i < parts.Length; i++)
@@ -64,6 +72,7 @@ public class NewPlayer : MonoBehaviour {
 
             if (gameObject.transform.position == moveTo && !canMove && (oldTrans == null || (oldTrans.localPosition == newTransPos && gameObject.transform.position == moveTo)))
             {
+                FindObjectOfType<NewRoundManager>().CheckWin();
                 canMove = true;
             }
 
@@ -104,7 +113,7 @@ public class NewPlayer : MonoBehaviour {
                         moveTo = square.transform.position;
                         xPos = newX;
                         yPos = newY;
-                        FindObjectOfType<NewRoundManager>().CheckWin();
+                        
 
                         if (square.isOn)
                         {

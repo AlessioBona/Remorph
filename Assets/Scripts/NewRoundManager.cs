@@ -59,37 +59,51 @@ public class NewRoundManager : MonoBehaviour {
         ComposeLevel();
         Reset();
 
+        rayStart = playerScript.RayCaster.localPosition;
     }
 
+    Vector3 rayStart;
 
     public void CheckWin()
     {
-        Vector3 rayStart = playerScript.RayCaster.localPosition;
-        List<RaycastHit2D> hitList = new List<RaycastHit2D>();
+        List<RaycastHit> hitList = new List<RaycastHit>();
+        playerScript.RayCaster.localPosition = rayStart;
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 8; i++)
         {
-            playerScript.RayCaster.localPosition += new Vector3(+.25f, 0f, 0f);
+            playerScript.RayCaster.localPosition += new Vector3(+.5f, 0f, 0f);
 
-            for (int a = 0; a < 6; a++)
+            for (int a = 0; a < 8; a++)
             {
-                playerScript.RayCaster.localPosition += new Vector3(0f, +.25f, 0f);
-                RaycastHit2D hit = Physics2D.Raycast(playerScript.RayCaster.position, -Vector2.up);
-                hitList.Add(hit);
+                RaycastHit hit;
+                
+                playerScript.RayCaster.localPosition += new Vector3(0f, +.5f, 0f);
+                Debug.DrawRay(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 10f), Color.green);
+                if (Physics.Raycast(playerScript.RayCaster.position + new Vector3(0f, 0f, -5f), new Vector3(0f, 0f, 2f), out hit)){
+                    hitList.Add(hit);
+                } 
             }
-        }
-        Debug.Log(hitList.Count);
 
-        foreach(RaycastHit2D hit in hitList)
+            playerScript.RayCaster.localPosition += new Vector3(0f, -4f, 0f);
+        }
+
+        int end = 0;
+        int pla = 0;
+
+        foreach (RaycastHit hit in hitList)
         {
-            if (hit.collider)
-            {
-                if (hit.collider.gameObject.tag == "endCopy")
+            if (hit.transform.parent.tag == "endCopy")
                 {
-                    Debug.Log("it's a copy");
+                end += 1;
                 }
-            }
+            if (hit.transform.parent.tag == "Player")
+                {
+                pla += 1;
+                }
         }
+
+        Debug.Log("player rays: " + pla + " - end rays: " + end);
+
     }
 
     void ComposeLevel()
@@ -102,6 +116,7 @@ public class NewRoundManager : MonoBehaviour {
 
         //create EndCopy
         endCopy = Instantiate(player);
+        endCopy.tag = "endCopy";
         endCopy.transform.SetParent(simulacraParent.transform);
         endCopy.GetComponent<NewPlayer>().isPlayer = false;
         SpriteRenderer[] endRend = endCopy.GetComponentsInChildren<SpriteRenderer>();
@@ -125,6 +140,8 @@ public class NewRoundManager : MonoBehaviour {
 
         }
 
+        endCopy.transform.position += new Vector3(0f, 0f, -1f);
+
         //create Reference
         reference = Instantiate(player);
         reference.transform.SetParent(simulacraParent.transform);
@@ -135,7 +152,7 @@ public class NewRoundManager : MonoBehaviour {
             rend.color = transparent;
             rend.sortingOrder = rend.sortingOrder - 2;
         }
-        
+
 
 
     }
@@ -163,18 +180,19 @@ public class NewRoundManager : MonoBehaviour {
         {
             if (square.colNumber == 0 && square.rowNumber == 0)
             {
-                player.GetComponent<NewPlayer>().moveTo = square.transform.position;
+                playerScript.moveTo = square.transform.position;
                 player.transform.position = square.transform.position;
                 reference.GetComponent<NewPlayer>().moveTo = square.transform.position;
                 reference.transform.position = square.transform.position;
-                player.GetComponent<NewPlayer>().canMove = true;
-                player.GetComponent<NewPlayer>().oldTrans = null;
+                playerScript.canMove = true;
+                playerScript.oldTrans = null;
 
 
-                player.GetComponent<NewPlayer>().xPos = 0;
-                player.GetComponent<NewPlayer>().yPos = 0;
+                playerScript.xPos = 0;
+                playerScript.yPos = 0;
 
-                player.GetComponent<NewPlayer>().Reset();
+                playerScript.Reset();
+                playerScript.MoveUpForRaycast();
             }
             
         }

@@ -11,6 +11,7 @@ TagManager:
   - row_4
   - squareBG
   - LevelCamera
+  - endCopy
   layers:
   - Default
   - TransparentFX

@@ -22,12 +22,23 @@ public class LevelSelector : MonoBehaviour {
     }
 
     public void LoadLevel(int levelNumber)
+    { 
+        UIManager.ShowUiElement("LoadScreen", "MyUI");
+        StartCoroutine(ActuallyLoadLevel(levelNumber));
+
+        //UIManager.SendGameEvent("LoadLevel_" + levelNumber);
+        //PlayerPrefs.SetInt(LOADED_LEVEL, levelNumber);
+        //PlayerPrefs.Save();
+
+    }
+
+    IEnumerator ActuallyLoadLevel(int levelNumber)
     {
+        yield return new WaitForSeconds(1f);
         UIManager.ShowUiElement("LoadScreen", "MyUI");
         UIManager.SendGameEvent("LoadLevel_" + levelNumber);
         PlayerPrefs.SetInt(LOADED_LEVEL, levelNumber);
         PlayerPrefs.Save();
-
     }
 
     public void UnloadLevel(int levelNumber)

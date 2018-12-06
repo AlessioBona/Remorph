@@ -8,7 +8,8 @@ public class NewRoundManager : MonoBehaviour {
     public Camera activeCamera;
     public float initialCameraSize;
     public float zoomedCameraSize;
-    public float zoomSpeed;
+    public float zoomTime;
+    public float zoomDistance;
     public bool closeCamera = false;
     //three variables are hard coded so far
 
@@ -60,7 +61,7 @@ public class NewRoundManager : MonoBehaviour {
 
         initialCameraSize = 18f;
         zoomedCameraSize = 6f;
-        zoomSpeed = 24f;
+        zoomTime = .4f;
         activeCamera.orthographicSize = initialCameraSize;
     }
 
@@ -275,13 +276,35 @@ public class NewRoundManager : MonoBehaviour {
 
     void ZoomCamera()
     {
+
+        // calcola distanza, dividila per coefficiente
+
         if(closeCamera && activeCamera.orthographicSize > zoomedCameraSize)
         {
-            activeCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
+            float zoomDiff = Mathf.Abs(initialCameraSize - zoomedCameraSize);
+            activeCamera.orthographicSize -= (zoomDiff / zoomTime) * Time.deltaTime;
         }
+
+        if(closeCamera && activeCamera.gameObject.transform.position != player.transform.position + new Vector3(0f, 0f, -10f))
+        {
+            //float zoomDiff = Mathf.Abs(Vector3.Distance(activeCamera.gameObject.transform.position, player.transform.position + new Vector3(0f, 0f, -10f)));
+
+            activeCamera.gameObject.transform.position = Vector3.MoveTowards(
+                activeCamera.gameObject.transform.position, player.transform.position + new Vector3(0f, 0f, -10f), (zoomDistance / zoomTime)* 1f * Time.deltaTime);
+        }
+
         if (!closeCamera && activeCamera.orthographicSize < initialCameraSize)
         {
-            activeCamera.orthographicSize += zoomSpeed * Time.deltaTime;
+            float zoomDiff = Mathf.Abs(initialCameraSize - zoomedCameraSize);
+            activeCamera.orthographicSize += (zoomDiff / zoomTime) * Time.deltaTime;
+        }
+
+        if (!closeCamera && activeCamera.gameObject.transform.position != new Vector3(0f, 0f, -10f))
+        {
+            //float zoomDiff = Mathf.Abs(Vector3.Distance(player.transform.position + new Vector3(0f, 0f, -10f), new Vector3(0f, 0f, -10f)));
+
+            activeCamera.gameObject.transform.position = Vector3.MoveTowards(
+                 activeCamera.gameObject.transform.position, new Vector3(0f, 0f, -10f), (zoomDistance / zoomTime) * 1f * Time.deltaTime);
         }
 
 
@@ -387,8 +410,9 @@ public class NewRoundManager : MonoBehaviour {
                     if (iconsOn)
                     {
                         TurnIconsOn(false);
+                        zoomDistance = Mathf.Abs(Vector3.Distance(activeCamera.gameObject.transform.position, player.transform.position + new Vector3(0f, 0f, -10f)));
                         UIManager.ShowUiElement("InGame", "MyUI");
-                        activeCamera.gameObject.transform.position = player.transform.position + new Vector3(0f, 0f, -10f);
+                        //activeCamera.gameObject.transform.position = player.transform.position + new Vector3(0f, 0f, -10f);
                         closeCamera = true;
                         //TurnIconsOff();
                         //instructions.SetActive(true);
@@ -401,7 +425,6 @@ public class NewRoundManager : MonoBehaviour {
                     {
                         TurnIconsOn(true);
                         UIManager.HideUiElement("InGame", "MyUI");
-                        activeCamera.gameObject.transform.position = new Vector3(0f, 0f, -10f);
                         closeCamera = false;
                         //instructions.SetActive(false);
                         //updateIcons();

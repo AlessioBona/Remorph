@@ -62,6 +62,7 @@ public class NewRoundManager : MonoBehaviour {
         initialCameraSize = 18f;
         zoomedCameraSize = 6f;
         zoomTime = .4f;
+        activeCamera.gameObject.transform.position = new Vector3(0f, 0f, -10f);
         activeCamera.orthographicSize = initialCameraSize;
     }
 
@@ -312,6 +313,9 @@ public class NewRoundManager : MonoBehaviour {
 
     public void Reset()
     {
+
+        closeCamera = false;
+
         Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
 
         foreach (Square2D square in allSquares)

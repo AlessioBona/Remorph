@@ -15,6 +15,7 @@ MonoBehaviour:
     categories:
     - categoryName: MyUI
       itemNames:
+      - BackGround
       - InGame
       - LevelSelect
       - LoadScreen

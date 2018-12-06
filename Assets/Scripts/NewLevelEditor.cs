@@ -48,6 +48,7 @@ public class NewLevelEditor : MonoBehaviour {
             foreach (Square2D square in allSquares)
             {
                 square.backGround.GetComponent<SpriteRenderer>().sprite = squarePrefab.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().sprite;
+                square.backGround.GetComponent<SpriteRenderer>().color = squarePrefab.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color;
             }
 
         }

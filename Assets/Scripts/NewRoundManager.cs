@@ -6,6 +6,12 @@ using DoozyUI;
 public class NewRoundManager : MonoBehaviour {
 
     public Camera activeCamera;
+    public float initialCameraSize;
+    public float zoomedCameraSize;
+    public float zoomSpeed;
+    public bool closeCamera = false;
+    //three variables are hard coded so far
+
     public GameObject boardBG;
 
     public GameObject player;
@@ -43,10 +49,19 @@ public class NewRoundManager : MonoBehaviour {
 
     private void Awake()
     {
+        activeCamera = GameObject.FindGameObjectWithTag("LevelCamera").GetComponent<Camera>();
+
+
         if (GameObject.FindGameObjectWithTag("MainCamera"))
         {
             GameObject.FindGameObjectWithTag("LevelCamera").SetActive(false);
+            activeCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         }
+
+        initialCameraSize = 18f;
+        zoomedCameraSize = 6f;
+        zoomSpeed = 24f;
+        activeCamera.orthographicSize = initialCameraSize;
     }
 
     // Use this for initialization
@@ -255,7 +270,22 @@ public class NewRoundManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Touch();
+        ZoomCamera();
 	}
+
+    void ZoomCamera()
+    {
+        if(closeCamera && activeCamera.orthographicSize > zoomedCameraSize)
+        {
+            activeCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
+        }
+        if (!closeCamera && activeCamera.orthographicSize < initialCameraSize)
+        {
+            activeCamera.orthographicSize += zoomSpeed * Time.deltaTime;
+        }
+
+
+    }
 
     public void Reset()
     {
@@ -295,7 +325,7 @@ public class NewRoundManager : MonoBehaviour {
                 touchPositionStart = touch_0.position;
             }
 
-            if (touch_0.phase == TouchPhase.Ended)
+            if (touch_0.phase == TouchPhase.Ended && Input.touchCount == 1)
             {
                 Vector2 touchPositionDifference = touchPositionStart - touch_0.position;
 
@@ -316,16 +346,16 @@ public class NewRoundManager : MonoBehaviour {
                                 playerScript.Move(1, 0);
                             }
                         }
-                        if (!iconsOn)
-                        {
-                            if (touchPositionDifference.x > 0)
-                            {
-                                //reference.SetActive(false);
-                                //theCamera.transform.position = cameraOriginal;
-                                //theCamera.orthographicSize = originalZoom;
-                                Reset();
-                            }
-                        }
+                        //if (!iconsOn)
+                        //{
+                        //    if (touchPositionDifference.x > 0)
+                        //    {
+                        //        //reference.SetActive(false);
+                        //        //theCamera.transform.position = cameraOriginal;
+                        //        //theCamera.orthographicSize = originalZoom;
+                        //        Reset();
+                        //    }
+                        //}
                     }
                     if (Mathf.Abs(touchPositionDifference.x) < Mathf.Abs(touchPositionDifference.y))
                     {
@@ -358,6 +388,8 @@ public class NewRoundManager : MonoBehaviour {
                     {
                         TurnIconsOn(false);
                         UIManager.ShowUiElement("InGame", "MyUI");
+                        activeCamera.gameObject.transform.position = player.transform.position + new Vector3(0f, 0f, -10f);
+                        closeCamera = true;
                         //TurnIconsOff();
                         //instructions.SetActive(true);
                         //reference.transform.position = player.transform.position;
@@ -369,6 +401,8 @@ public class NewRoundManager : MonoBehaviour {
                     {
                         TurnIconsOn(true);
                         UIManager.HideUiElement("InGame", "MyUI");
+                        activeCamera.gameObject.transform.position = new Vector3(0f, 0f, -10f);
+                        closeCamera = false;
                         //instructions.SetActive(false);
                         //updateIcons();
                         //reference.SetActive(false);
@@ -405,6 +439,7 @@ public class NewRoundManager : MonoBehaviour {
                 }
             }
         }
+
         if (!on) {
             foreach (Square2D square in allSquares)
             {

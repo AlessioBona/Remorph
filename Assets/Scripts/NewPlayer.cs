@@ -111,7 +111,7 @@ public class NewPlayer : MonoBehaviour {
             int newX = xPos + x;
             int newY = yPos + y;
             Debug.Log(newY + " of " + rows);
-            if (newX >= 0 && newX < columns && newY >= 0 && newY < rows) // TO SUBSTITUTE
+            if (newX >= 0 && newX < columns && newY >= 0 && newY < rows)
             {
 
                 Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
@@ -130,7 +130,7 @@ public class NewPlayer : MonoBehaviour {
                             TransformParts((int)square.colore, (int)square.icona);
                         }
 
-                        if(square.colNumber == columns-1 && square.rowNumber == rows - 1) // TO SUBSTITUTE
+                        if(square.colNumber == endCol && square.rowNumber == endRow) // TO SUBSTITUTE
                         {
                             checkIfIWon = true;
                         } else

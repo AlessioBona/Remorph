@@ -58,10 +58,27 @@ public class NewRoundManager : MonoBehaviour {
         sprites = levelEditor.sprites;
         spriteColors = levelEditor.spriteColors;
         transparent = levelEditor.transparent;
+
         rows = levelEditor.rows;
         columns = levelEditor.columns;
         playerScript.columns = columns;
         playerScript.rows = rows;
+
+        startRow = levelEditor.startRow;
+        startCol = levelEditor.startCol;
+        playerScript.startCol = startCol;
+        playerScript.startRow = startRow;
+
+        endCol = levelEditor.endCol;
+        endRow = levelEditor.endRow;
+        playerScript.endCol = endCol;
+        playerScript.endRow = endRow;
+
+        rows = levelEditor.rows;
+        columns = levelEditor.columns;
+        playerScript.columns = columns;
+        playerScript.rows = rows;
+
 
         //ComposeLevel(columns, rows);
         reference = GameObject.FindGameObjectWithTag("reference");
@@ -246,7 +263,7 @@ public class NewRoundManager : MonoBehaviour {
 
         foreach (Square2D square in allSquares)
         {
-            if (square.colNumber == 0 && square.rowNumber == 0)
+            if (square.colNumber == startCol && square.rowNumber == startRow)
             {
                 playerScript.moveTo = square.transform.position;
                 player.transform.position = square.transform.position;
@@ -256,8 +273,8 @@ public class NewRoundManager : MonoBehaviour {
                 playerScript.oldTrans = null;
 
 
-                playerScript.xPos = 0;
-                playerScript.yPos = 0;
+                playerScript.xPos = startCol;
+                playerScript.yPos = startRow;
 
                 playerScript.Reset();
                 playerScript.MoveUpForRaycast();

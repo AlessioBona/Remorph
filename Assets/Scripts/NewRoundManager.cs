@@ -272,8 +272,13 @@ public class NewRoundManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Touch();
-        ZoomCamera();
+        
 	}
+
+    private void FixedUpdate()
+    {
+        ZoomCamera();
+    }
 
     void ZoomCamera()
     {

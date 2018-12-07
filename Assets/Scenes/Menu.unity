@@ -15697,10 +15697,10 @@ RectTransform:
   m_Father: {fileID: 1764130463}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1213}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 4, y: -1208}
+  m_SizeDelta: {x: 614, y: 1226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &898117127
 CanvasRenderer:
@@ -15732,7 +15732,7 @@ MonoBehaviour:
   autoHide: 0
   autoHideDelay: 3
   useCustomStartAnchoredPosition: 1
-  customStartAnchoredPosition: {x: 0, y: -1213, z: 0}
+  customStartAnchoredPosition: {x: 4, y: -1200, z: 0}
   executeLayoutFix: 0
   deselectAnySelectedButtonOnShow: 0
   deselectAnySelectedButtonOnHide: 0
@@ -15746,8 +15746,8 @@ MonoBehaviour:
     move:
       enabled: 1
       animationType: 0
-      moveDirection: 3
-      customPosition: {x: 0, y: 0, z: 0}
+      moveDirection: 13
+      customPosition: {x: 4, y: -1600, z: 0}
       easeType: 0
       ease: 1
       animationCurve:
@@ -15837,10 +15837,10 @@ MonoBehaviour:
   outAnimations:
     animationType: 1
     move:
-      enabled: 0
+      enabled: 1
       animationType: 1
-      moveDirection: 0
-      customPosition: {x: 0, y: 0, z: 0}
+      moveDirection: 13
+      customPosition: {x: 4, y: -1600, z: 0}
       easeType: 0
       ease: 1
       animationCurve:
@@ -15895,9 +15895,9 @@ MonoBehaviour:
       startDelay: 0
       duration: 0.5
     moveIsExpanded:
-      m_Target: 0
+      m_Target: 1
       speed: 2
-      m_Value: 0
+      m_Value: 1
     rotateIsExpanded:
       m_Target: 0
       speed: 2
@@ -17210,7 +17210,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      startDelay: 0
+      startDelay: 0.5
       duration: 0.5
     rotate:
       enabled: 0
@@ -18634,7 +18634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 500}
+  m_AnchoredPosition: {x: 0, y: 527}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1197952076
@@ -18671,7 +18671,7 @@ MonoBehaviour:
   autoHide: 0
   autoHideDelay: 3
   useCustomStartAnchoredPosition: 1
-  customStartAnchoredPosition: {x: 0, y: 500, z: 0}
+  customStartAnchoredPosition: {x: 0, y: 527, z: 0}
   executeLayoutFix: 0
   deselectAnySelectedButtonOnShow: 0
   deselectAnySelectedButtonOnHide: 0
@@ -18695,7 +18695,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      startDelay: 0
+      startDelay: 0.5
       duration: 0.5
     rotate:
       enabled: 0
@@ -27702,7 +27702,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2875, y: -1172}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1764130464
@@ -27888,8 +27888,8 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      startDelay: 0
-      duration: 1
+      startDelay: 1
+      duration: 0
     moveIsExpanded:
       m_Target: 0
       speed: 2
@@ -31142,7 +31142,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 79}
+  m_AnchoredPosition: {x: 0, y: 132}
   m_SizeDelta: {x: 614, y: 1226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1977571537
@@ -31175,7 +31175,7 @@ MonoBehaviour:
   autoHide: 0
   autoHideDelay: 3
   useCustomStartAnchoredPosition: 1
-  customStartAnchoredPosition: {x: 0, y: 79, z: 0}
+  customStartAnchoredPosition: {x: 0, y: 130, z: 0}
   executeLayoutFix: 0
   deselectAnySelectedButtonOnShow: 0
   deselectAnySelectedButtonOnHide: 0
@@ -31189,8 +31189,8 @@ MonoBehaviour:
     move:
       enabled: 1
       animationType: 0
-      moveDirection: 2
-      customPosition: {x: 0, y: 0, z: 0}
+      moveDirection: 13
+      customPosition: {x: 0, y: 530, z: 0}
       easeType: 0
       ease: 1
       animationCurve:
@@ -31280,10 +31280,10 @@ MonoBehaviour:
   outAnimations:
     animationType: 1
     move:
-      enabled: 0
+      enabled: 1
       animationType: 1
-      moveDirection: 0
-      customPosition: {x: 0, y: 0, z: 0}
+      moveDirection: 13
+      customPosition: {x: 0, y: 530, z: 0}
       easeType: 0
       ease: 1
       animationCurve:
@@ -31338,9 +31338,9 @@ MonoBehaviour:
       startDelay: 0
       duration: 0.5
     moveIsExpanded:
-      m_Target: 0
+      m_Target: 1
       speed: 2
-      m_Value: 0
+      m_Value: 1
     rotateIsExpanded:
       m_Target: 0
       speed: 2
@@ -31598,7 +31598,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      startDelay: 0
+      startDelay: 0.5
       duration: 0.5
     rotate:
       enabled: 0

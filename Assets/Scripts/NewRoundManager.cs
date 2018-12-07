@@ -337,7 +337,7 @@ public class NewRoundManager : MonoBehaviour {
 
                 playerScript.xPos = startCol;
                 playerScript.yPos = startRow;
-
+                TurnIconsOn(true);
                 playerScript.Reset();
                 playerScript.MoveUpForRaycast();
             }
@@ -441,7 +441,7 @@ public class NewRoundManager : MonoBehaviour {
                         //theCamera.transform.position = cameraOriginal;
                         //theCamera.orthographicSize = originalZoom;
                     }
-                    iconsOn = !iconsOn;
+                    
 
 
                 }
@@ -470,6 +470,7 @@ public class NewRoundManager : MonoBehaviour {
                     square.iconSprite.GetComponent<SpriteRenderer>().color = transparent;
                 }
             }
+            iconsOn = true;
         }
 
         if (!on) {
@@ -480,6 +481,7 @@ public class NewRoundManager : MonoBehaviour {
                 reference.transform.position = playerScript.moveTo;
                 
             }
+            iconsOn = false;
 
         }
     }

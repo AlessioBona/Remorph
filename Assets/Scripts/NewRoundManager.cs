@@ -204,6 +204,16 @@ public class NewRoundManager : MonoBehaviour {
         // IF IT RETURNS, NOTHING AFTER THIS LINE IS PLAYED!
         Debug.Log("I WOOOOON!!!");
 
+        // THIS IS THE NEW PART
+
+        TurnIconsOn(false);
+        zoomDistance = Mathf.Abs(Vector3.Distance(activeCamera.gameObject.transform.position, player.transform.position + new Vector3(0f, 0f, -10f)));
+        UIManager.ShowUiElement("YouWon", "MyUI");
+        //activeCamera.gameObject.transform.position = player.transform.position + new Vector3(0f, 0f, -10f);
+        closeCamera = true;
+
+        // THIS ONE
+
     }
 
     public void ComposeLevel(int c, int r)

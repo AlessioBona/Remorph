@@ -61,17 +61,7 @@ public class NewLevelEditor : MonoBehaviour {
                 GameObject.DestroyImmediate(toDestroy[d]);
             }
 
-            GameObject[] alsoToDestroy = GameObject.FindGameObjectsWithTag("endCopy");
-            for (int d = 0; d < alsoToDestroy.Length; d++)
-            {
-                GameObject.DestroyImmediate(alsoToDestroy[d]);
-            }
 
-            GameObject[] alsoToDestroy2 = GameObject.FindGameObjectsWithTag("reference");
-            for (int d = 0; d < alsoToDestroy2.Length; d++)
-            {
-                GameObject.DestroyImmediate(alsoToDestroy2[d]);
-            }
 
 
             //foreach (List<GameObject> row in linesRow)
@@ -101,11 +91,25 @@ public class NewLevelEditor : MonoBehaviour {
                 }
             }
 
-            roundManager.ComposeLevel(columns, rows);
+            
         }
 
         if (resetSymbols) 
         {
+
+            GameObject[] alsoToDestroy = GameObject.FindGameObjectsWithTag("endCopy");
+            for (int d = 0; d < alsoToDestroy.Length; d++)
+            {
+                GameObject.DestroyImmediate(alsoToDestroy[d]);
+            }
+
+            GameObject[] alsoToDestroy2 = GameObject.FindGameObjectsWithTag("reference");
+            for (int d = 0; d < alsoToDestroy2.Length; d++)
+            {
+                GameObject.DestroyImmediate(alsoToDestroy2[d]);
+            }
+
+            roundManager.ComposeLevel(columns, rows);
 
             Debug.Log("I reset symbols");
             //foreach (List<GameObject> row in linesRow)

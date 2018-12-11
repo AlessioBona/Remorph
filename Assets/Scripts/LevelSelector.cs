@@ -34,8 +34,10 @@ public class LevelSelector : MonoBehaviour {
 
     IEnumerator ActuallyLoadLevel(int levelNumber)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         UIManager.ShowUiElement("LoadScreen", "MyUI");
+        yield return new WaitForSeconds(.5f);
+        UIManager.HideUiElement("MainMenu", "MyUI");
         UIManager.SendGameEvent("LoadLevel_" + levelNumber);
         PlayerPrefs.SetInt(LOADED_LEVEL, levelNumber);
         PlayerPrefs.Save();

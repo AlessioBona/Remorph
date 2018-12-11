@@ -47,6 +47,7 @@ public class NewRoundManager : MonoBehaviour {
 
     Vector2 touchPositionStart;
     bool iconsOn = true;
+    bool youWon = false;
 
     private void Awake()
     {
@@ -211,6 +212,7 @@ public class NewRoundManager : MonoBehaviour {
         UIManager.ShowUiElement("YouWon", "MyUI");
         //activeCamera.gameObject.transform.position = player.transform.position + new Vector3(0f, 0f, -10f);
         closeCamera = true;
+        youWon = true;
 
         // THIS ONE
 
@@ -358,7 +360,7 @@ public class NewRoundManager : MonoBehaviour {
 
     void Touch()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !youWon)
         {
 
             Touch touch_0 = Input.GetTouch(0);

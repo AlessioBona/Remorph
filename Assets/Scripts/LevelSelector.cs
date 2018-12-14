@@ -32,22 +32,51 @@ public class LevelSelector : MonoBehaviour {
 
     }
 
-    IEnumerator ActuallyLoadLevel(int levelNumber)
+    public void LoadNextLevel()
+    {
+        UIManager.ShowUiElement("LoadScreen", "MyUI");
+        int levelNumber = PlayerPrefs.GetInt(LOADED_LEVEL, NO_LEVEL_LOADED);
+        StartCoroutine(ActuallyNextLevel(levelNumber));
+    }
+
+    IEnumerator ActuallyNextLevel(int levelNumber)
     {
         yield return new WaitForSeconds(.5f);
-        UIManager.ShowUiElement("LoadScreen", "MyUI");
-        yield return new WaitForSeconds(.5f);
+        UIManager.SendGameEvent("UnloadLevel_" + levelNumber);
+        PlayerPrefs.SetInt(LOADED_LEVEL, NO_LEVEL_LOADED);
+        PlayerPrefs.Save();
+        UIManager.HideUiElement("YouWon", "MyUI");
+        StartCoroutine(ActuallyLoadLevel(levelNumber + 1));
+    }
+
+
+    IEnumerator ActuallyLoadLevel(int levelNumber)
+    {
+        yield return new WaitForSeconds(.7f);
         UIManager.HideUiElement("MainMenu", "MyUI");
         UIManager.SendGameEvent("LoadLevel_" + levelNumber);
         PlayerPrefs.SetInt(LOADED_LEVEL, levelNumber);
         PlayerPrefs.Save();
     }
 
-    public void UnloadLevel(int levelNumber)
+    IEnumerator ActuallyUnloadLevel(int levelNumber)
     {
+        UIManager.ShowUiElement("LoadScreen", "MyUI");
+        yield return new WaitForSeconds(.5f);
+        UIManager.HideUiElement("InGame", "MyUI");
+        UIManager.HideUiElement("YouWon", "MyUI");
         UIManager.SendGameEvent("UnloadLevel_" + levelNumber);
         PlayerPrefs.SetInt(LOADED_LEVEL, NO_LEVEL_LOADED);
         PlayerPrefs.Save();
+        UIManager.ShowUiElement("MainMenu", "MyUI");
+        yield return new WaitForSeconds(.7f);
+        UIManager.HideUiElement("LoadScreen", "MyUI");
+
+    }
+
+    public void UnloadLevel(int levelNumber)
+    {
+        StartCoroutine(ActuallyUnloadLevel(levelNumber));
     }
 
     public void UnloadCurrentLevel()

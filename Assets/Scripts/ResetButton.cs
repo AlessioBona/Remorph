@@ -6,6 +6,7 @@ public class ResetButton : MonoBehaviour {
 
     public void ResetRound()
     {
+        Debug.Log("I should Reset");
         FindObjectOfType<NewRoundManager>().Reset();
     }
 

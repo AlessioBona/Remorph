@@ -253,6 +253,72 @@ public class NewPlayer : MonoBehaviour {
                     newTransSca += new Vector3(0f, scaleUnit, 0f);
                 }
                 break;
+            case 8:
+                //exLeft
+                if (newTransSca.x < scaleMax)
+                {
+                    newTransPos += new Vector3(-0.25f, 0f, 0f);
+                    newTransSca += new Vector3(scaleUnit/2, 0f, 0f);
+                }
+                break;
+            case 9:
+                //exRight
+                if (newTransSca.x < scaleMax)
+                {
+                    newTransPos += new Vector3(0.25f, 0f, 0f);
+                    newTransSca += new Vector3(scaleUnit/2, 0f, 0f);
+                }
+                break;
+            case 10:
+                //exUp
+                if (newTransSca.y < scaleMax)
+                {
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
+                }
+                break;
+            case 11:
+                //exDown
+                if (newTransSca.y < scaleMax)
+                {
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca += new Vector3(0f, scaleUnit / 2, 0f);
+                }
+                break;
+            case 12:
+                //contrLeft
+                if (newTransSca.x > scaleUnit/2)
+                {
+                    newTransPos += new Vector3(0.25f, 0f, 0f);
+                    newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                }
+                break;
+            case 13:
+                //contrRight
+                if (newTransSca.x > scaleUnit/2)
+                {
+                    newTransPos += new Vector3(-0.25f, 0f, 0f);
+                    newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                }
+                break;
+            case 14:
+                //contrUp
+                if (newTransSca.y > scaleUnit / 2)
+                {
+                    newTransPos += new Vector3(0f, -0.25f, 0f);
+                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
+                }
+                break;
+            case 15:
+                //contrDown
+                if (newTransSca.y > scaleUnit / 2)
+                {
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
+                }
+                break;
+
+
             default:
                 // nothing
                 break;

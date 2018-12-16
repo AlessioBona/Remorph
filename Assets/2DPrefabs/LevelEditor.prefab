@@ -52,23 +52,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundManager: {fileID: 0}
-  firstSquarePosition: {fileID: 0}
+  player: {fileID: 0}
   squaresParent: {fileID: 0}
   squarePrefab: {fileID: 1524437301592908, guid: 65e80a316d95efb47a21c28936bc4977,
     type: 2}
-  columns: 7
-  rows: 2
+  columns: 4
+  rows: 7
+  startCol: 0
+  startRow: 0
+  endCol: 3
+  endRow: 6
   resetSquares: 0
-  resetSymbols: 0
+  changeSquaresBG: 0
+  resetSymbols: 1
   sprites:
-  - {fileID: 21300000, guid: 22552856ad82b463a99791768b620dac, type: 3}
-  - {fileID: 21300000, guid: 083b79cd6280b4186beaea0a39352110, type: 3}
-  - {fileID: 21300000, guid: 060adfd2a55e84dc6bec54b7f04839b5, type: 3}
-  - {fileID: 21300000, guid: 398e59185ad0b4cc1b040f9ccbe85f60, type: 3}
-  - {fileID: 21300000, guid: dcf26cd11eb408c42a5f48eeded4832b, type: 3}
-  - {fileID: 21300000, guid: 08e249fa737d8ea40a0e0e42ff4b5ac3, type: 3}
-  - {fileID: 21300000, guid: bcf9928bab0c225449f817d7b1a25c08, type: 3}
-  - {fileID: 21300000, guid: 4115701470f035044aee340ff80a7d03, type: 3}
+  - {fileID: 21300000, guid: 864824f96daac5b4aaedf6f3dd53ed98, type: 3}
+  - {fileID: 21300000, guid: 70cf07f2198b53845a2e344fab08bb03, type: 3}
+  - {fileID: 21300000, guid: c40d8ed766551e04ebd354ee8056beb5, type: 3}
+  - {fileID: 21300000, guid: 3ab22c248e52c834e9464af51d8679f4, type: 3}
+  - {fileID: 21300000, guid: 49591413fecb06d4ea09837307229c8b, type: 3}
+  - {fileID: 21300000, guid: 33fb8a97b25a1ec4db139a7e9c186ffd, type: 3}
+  - {fileID: 21300000, guid: 2430d7fdf2fd073449cf96ec085903d9, type: 3}
+  - {fileID: 21300000, guid: f173eb5978e505a43b0a29a975a6b6cd, type: 3}
+  - {fileID: 21300000, guid: be26ab5660b73a247b275b92ab920d1e, type: 3}
+  - {fileID: 21300000, guid: 5d9454b7548dfef47beb6371c5fde275, type: 3}
+  - {fileID: 21300000, guid: 66440552348c5f6498adcea3fe84ba59, type: 3}
+  - {fileID: 21300000, guid: 7f55821288175d345a4d1b6a11491758, type: 3}
+  - {fileID: 21300000, guid: 589491c2cb09fef46bc9f04a0a15e8cb, type: 3}
+  - {fileID: 21300000, guid: 3021bd78948cf314d94bbbf45bcf40b0, type: 3}
+  - {fileID: 21300000, guid: a4d1e47ec48a520498f58dfd5d4cec65, type: 3}
+  - {fileID: 21300000, guid: d4d3c0c8162d07f448bb82e943f8e038, type: 3}
+  - {fileID: 21300000, guid: b994437a6ae93e84e85467aabe140610, type: 3}
+  - {fileID: 21300000, guid: 46d548df43bf8c4448059f0f23042962, type: 3}
   spriteColors:
   - {r: 1, g: 0.00000014901161, b: 0, a: 0.6862745}
   - {r: 0, g: 0.41719317, b: 1, a: 0.6901961}

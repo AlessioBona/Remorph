@@ -20,10 +20,20 @@ public class Square2D : MonoBehaviour {
         right,
         up,
         down,
-        contrHoriz,
-        expandHoriz,
-        contrVert,
-        expandVert
+        contr_Horiz,
+        expand_Horiz,
+        contr_Vert,
+        expand_Vert,
+        expand_Left,
+        expand_Right,
+        expand_Up,
+        expand_Down,
+        contr_Left,
+        contr_Right,
+        contr_Up,
+        contr_Down,
+        turn_Left,
+        turn_Right
     };
     public Icon icona;
 

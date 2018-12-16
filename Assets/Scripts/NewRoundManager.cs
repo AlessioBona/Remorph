@@ -358,22 +358,39 @@ public class NewRoundManager : MonoBehaviour {
     }
 
 
+    float touchTime;
+
     void Touch()
     {
         if (Input.touchCount > 0 && !youWon)
         {
 
             Touch touch_0 = Input.GetTouch(0);
+            
+
             if (touch_0.phase == TouchPhase.Began)
             {
                 touchPositionStart = touch_0.position;
+                touchTime = Time.time;
+            }
+
+            if (
+                Input.touchCount == 1 
+                && touch_0.phase == TouchPhase.Stationary 
+                && Time.time - touchTime > .7f 
+                && Mathf.Abs(Vector2.Distance(touchPositionStart,touch_0.position)) < 10f
+                )
+            {
+                
+                touchTime = Time.time + 100f;
+                playerScript.ReverseTransformation();
             }
 
             if (touch_0.phase == TouchPhase.Ended && Input.touchCount == 1)
             {
                 Vector2 touchPositionDifference = touchPositionStart - touch_0.position;
 
-                if (Mathf.Abs(touchPositionDifference.x) > 200f || Mathf.Abs(touchPositionDifference.y) > 200f)
+                if (Mathf.Abs(touchPositionDifference.x) > 100f || Mathf.Abs(touchPositionDifference.y) > 100f)
                 {
 
                     if (Mathf.Abs(touchPositionDifference.x) > Mathf.Abs(touchPositionDifference.y))
@@ -422,13 +439,11 @@ public class NewRoundManager : MonoBehaviour {
                 }
             }
 
-            if (Input.touchCount > 1)
-            {
-                Touch touch_1 = Input.GetTouch(1);
-                if (touch_1.phase == TouchPhase.Began)
-                {
-                    Debug.Log("two");
-                    if (iconsOn)
+            if (touch_0.tapCount > 1 && !justDoubleTapped) { 
+            Debug.Log("two");
+                justDoubleTapped = true;
+                StartCoroutine(youCanDoubleTap());
+                if (iconsOn)
                     {
                         TurnIconsOn(false);
                         zoomDistance = Mathf.Abs(Vector3.Distance(activeCamera.gameObject.transform.position, player.transform.position + new Vector3(0f, 0f, -10f)));
@@ -453,15 +468,20 @@ public class NewRoundManager : MonoBehaviour {
                         //theCamera.transform.position = cameraOriginal;
                         //theCamera.orthographicSize = originalZoom;
                     }
-                    
-
-
-                }
 
             }
 
         }
     }
+
+    bool justDoubleTapped = false;
+
+    IEnumerator youCanDoubleTap()
+    {
+        yield return new WaitForSeconds(1f);
+        justDoubleTapped = false;
+    }
+
 
     void TurnIconsOn(bool on)
     {

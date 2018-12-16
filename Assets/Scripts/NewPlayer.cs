@@ -23,8 +23,11 @@ public class NewPlayer : MonoBehaviour {
 
     public int xPos = 0;
     public int yPos = 0;
+    private int oldXPos = 0;
+    private int oldYPos = 0;
 
     public Vector3 moveTo;
+    public Vector3 prevPosition;
     public float tranSpeed;
     public float shiftSpeed;
     public float shapeSpeed;
@@ -35,7 +38,10 @@ public class NewPlayer : MonoBehaviour {
     public Transform oldTrans;
     Vector3 newTransPos;
     Vector3 newTransSca;
-    int colorToTransform;
+    int colorToTransform = 99;
+    Vector3 prevTransPos;
+    Vector3 prevTransSca;
+    int transformedColor = 99;
 
     // Use this for initialization
     void Awake () {
@@ -63,6 +69,8 @@ public class NewPlayer : MonoBehaviour {
         {
             parts[i].transform.localPosition = partsPos[i];
             parts[i].transform.localScale = partsDim[i];
+            oldXPos = 0;
+            oldYPos = 0;
         }
  
     }
@@ -120,9 +128,16 @@ public class NewPlayer : MonoBehaviour {
                 {
                     if (square.colNumber == newX && square.rowNumber == newY)
                     {
+                        prevPosition = transform.position;
                         moveTo = square.transform.position;
+
+                        oldXPos = xPos;
+                        oldYPos = yPos;
+                        
                         xPos = newX;
                         yPos = newY;
+
+                        justWentBack = false;
                         
 
                         if (square.isOn)
@@ -145,6 +160,40 @@ public class NewPlayer : MonoBehaviour {
         }
     }
 
+    // so you can just go back once
+    // a more elegant way would be an array of movement and transformations... but, do I want it?
+    bool justWentBack = false;
+
+    public void ReverseTransformation()
+    {
+        if(colorToTransform != 99 && !justWentBack)
+        {
+            
+
+            Square2D[] allSquares = squaresParent.GetComponentsInChildren<Square2D>();
+
+            foreach (Square2D square in allSquares)
+            {
+                if (square.colNumber == xPos && square.rowNumber == yPos)
+                {
+                    if (square.isOn)
+                    {
+                        newTransPos = prevTransPos;
+                        newTransSca = prevTransSca;
+                    }
+                }
+            }
+
+                xPos = oldXPos;
+                yPos = oldYPos;
+
+
+            moveTo = prevPosition;
+
+            justWentBack = true;
+        }
+    }
+
     public void TransformParts(int color, int icon)
     {
         float scaleUnit = 50f;
@@ -153,6 +202,10 @@ public class NewPlayer : MonoBehaviour {
         newTransPos = oldTrans.localPosition;
         newTransSca = oldTrans.localScale;
         colorToTransform = color;
+
+        //saved to reverse
+        prevTransPos = newTransPos;
+        prevTransSca = newTransSca;
 
         switch (icon)
         {

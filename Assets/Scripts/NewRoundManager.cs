@@ -108,6 +108,7 @@ public class NewRoundManager : MonoBehaviour {
         endCopy = GameObject.FindGameObjectWithTag("endCopy");
         Reset();
 
+        // ray at beginning
         rayStart = playerScript.RayCaster.localPosition;
         CreateRayArray();
     }
@@ -143,6 +144,20 @@ public class NewRoundManager : MonoBehaviour {
 
             playerScript.RayCaster.localPosition += new Vector3(0f, -4f, 0f);
         }
+    }
+
+    // for debug
+    private void PrintSquareArray(List<bool> array)
+    {
+        string toPrint = "";
+        for(int i = 0; i < array.Count; i++)
+        {
+            if(array[i])
+                toPrint += "1 ";
+            if (!array[i])
+                toPrint += "0 ";
+        }
+        Debug.Log(toPrint);
     }
 
     public void CheckWin()
@@ -181,18 +196,17 @@ public class NewRoundManager : MonoBehaviour {
 
         foreach (RaycastHit hit in hitList)
         {
-            if (hit.transform.parent.tag == "endCopy")
+            if (hit.transform.parent.parent.tag == "endCopy")
                 {
                 end += 1;
                 }
-            if (hit.transform.parent.tag == "Player")
+            if (hit.transform.parent.parent.tag == "Player")
                 {
                 pla += 1;
                 }
         }
 
         Debug.Log("player rays: " + pla + " - end rays: " + end);
-        Debug.Log(rayCheck);
 
         for (int i=0; i<raySave.Count; i++)
         {
@@ -385,7 +399,7 @@ public class NewRoundManager : MonoBehaviour {
                 && touch_0.phase == TouchPhase.Stationary 
                 && Time.time - touchTime > .7f 
                 && Mathf.Abs(Vector2.Distance(touchPositionStart,touch_0.position)) < 10f
-                && !iconsOn
+                && iconsOn
                 )
             {
                 

@@ -15830,7 +15830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1714, y: -61.000122}
+  m_AnchoredPosition: {x: 1714, y: -61}
   m_SizeDelta: {x: -81.25, y: -81.450195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &940863802
@@ -26345,11 +26345,11 @@ RectTransform:
   m_Children:
   - {fileID: 1242889948}
   m_Father: {fileID: 1904390791}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140, y: 500}
+  m_AnchoredPosition: {x: 166, y: -468}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1679646137
@@ -26375,7 +26375,7 @@ MonoBehaviour:
   autoHide: 0
   autoHideDelay: 3
   useCustomStartAnchoredPosition: 1
-  customStartAnchoredPosition: {x: 140, y: 500, z: 0}
+  customStartAnchoredPosition: {x: 166, y: -468, z: 0}
   executeLayoutFix: 0
   deselectAnySelectedButtonOnShow: 0
   deselectAnySelectedButtonOnHide: 0
@@ -26390,7 +26390,7 @@ MonoBehaviour:
       enabled: 1
       animationType: 0
       moveDirection: 13
-      customPosition: {x: 700, y: 500, z: 0}
+      customPosition: {x: 700, y: -468, z: 0}
       easeType: 0
       ease: 27
       animationCurve:
@@ -26483,7 +26483,7 @@ MonoBehaviour:
       enabled: 1
       animationType: 1
       moveDirection: 13
-      customPosition: {x: 700, y: 500, z: 0}
+      customPosition: {x: 700, y: -468, z: 0}
       easeType: 0
       ease: 1
       animationCurve:
@@ -30182,7 +30182,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 530.245, y: 302.28}
+  m_AnchoredPosition: {x: 563.02, y: -149.7}
   m_SizeDelta: {x: 1243.2, y: 729.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1813067249
@@ -31285,8 +31285,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1558588999}
-  - {fileID: 1679646136}
   - {fileID: 2055902628}
+  - {fileID: 1679646136}
   m_Father: {fileID: 771338580}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33667,7 +33667,7 @@ RectTransform:
   m_Children:
   - {fileID: 700455047}
   m_Father: {fileID: 1904390791}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

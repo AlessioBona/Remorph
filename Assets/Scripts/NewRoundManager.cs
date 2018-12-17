@@ -69,7 +69,12 @@ public class NewRoundManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+
+
         levelEditor = LevEdiObject.GetComponent<NewLevelEditor>();
+        levelEditor.changeSquaresBG = false;
+        levelEditor.resetSymbols = false;
         playerScript = player.GetComponent<NewPlayer>();
         playerScript.squaresParent = squaresParent;
 

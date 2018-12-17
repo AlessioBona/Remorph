@@ -380,6 +380,7 @@ public class NewRoundManager : MonoBehaviour {
                 && touch_0.phase == TouchPhase.Stationary 
                 && Time.time - touchTime > .7f 
                 && Mathf.Abs(Vector2.Distance(touchPositionStart,touch_0.position)) < 10f
+                && !iconsOn
                 )
             {
                 

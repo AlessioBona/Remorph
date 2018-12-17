@@ -20,6 +20,7 @@ public class NewPlayer : MonoBehaviour {
 
     public Vector3[] partsPos;
     public Vector3[] partsDim;
+    public int[] partsRot;
 
     public int xPos = 0;
     public int yPos = 0;
@@ -31,6 +32,7 @@ public class NewPlayer : MonoBehaviour {
     public float tranSpeed;
     public float shiftSpeed;
     public float shapeSpeed;
+    public float rotaSpeed;
 
     public bool canMove;
     public bool checkIfIWon;
@@ -38,9 +40,12 @@ public class NewPlayer : MonoBehaviour {
     public Transform oldTrans;
     Vector3 newTransPos;
     Vector3 newTransSca;
+    Quaternion newTransRot;
     int colorToTransform = 99;
     Vector3 prevTransPos;
     Vector3 prevTransSca;
+    int[] prevRotArray;
+    Quaternion prevTransRot;
     int transformedColor = 99;
 
     // Use this for initialization
@@ -53,6 +58,7 @@ public class NewPlayer : MonoBehaviour {
         partsDim[0] = parts[0].transform.localScale;
         partsDim[1] = parts[1].transform.localScale;
         partsDim[2] = parts[2].transform.localScale;
+        partsRot = new int[] { 0, 0, 0 };
     }
 
     public void MoveUpForRaycast()
@@ -69,8 +75,11 @@ public class NewPlayer : MonoBehaviour {
         {
             parts[i].transform.localPosition = partsPos[i];
             parts[i].transform.localScale = partsDim[i];
-            oldXPos = 0;
-            oldYPos = 0;
+            parts[i].transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            oldXPos = startCol;
+            oldYPos = startRow;
+            colorToTransform = 99;
+            partsRot = new int[] { 0, 0, 0 };
         }
  
     }
@@ -109,6 +118,12 @@ public class NewPlayer : MonoBehaviour {
             {
                 parts[colorToTransform].transform.localScale = Vector3.MoveTowards(parts[colorToTransform].transform.localScale, newTransSca, shapeSpeed);
             }
+
+            if (oldTrans != null && oldTrans.parent.localRotation != newTransRot && gameObject.transform.position == moveTo)
+            {
+                parts[colorToTransform].transform.parent.localRotation = Quaternion.RotateTowards(parts[colorToTransform].transform.parent.localRotation, newTransRot, rotaSpeed);
+            }
+
         }
     }
 
@@ -118,7 +133,7 @@ public class NewPlayer : MonoBehaviour {
         {
             int newX = xPos + x;
             int newY = yPos + y;
-            Debug.Log(newY + " of " + rows);
+            
             if (newX >= 0 && newX < columns && newY >= 0 && newY < rows)
             {
 
@@ -178,8 +193,15 @@ public class NewPlayer : MonoBehaviour {
                 {
                     if (square.isOn)
                     {
+                        
                         newTransPos = prevTransPos;
                         newTransSca = prevTransSca;
+
+                        newTransRot = prevTransRot;
+                        partsRot = prevRotArray;
+                        Debug.Log(newTransRot);
+                        Debug.Log(prevTransRot);
+                        Debug.Log(oldTrans.rotation);
                     }
                 }
             }
@@ -199,32 +221,71 @@ public class NewPlayer : MonoBehaviour {
         float scaleUnit = 50f;
         float scaleMax = 800f;
         oldTrans = parts[color].transform;
+
         newTransPos = oldTrans.localPosition;
         newTransSca = oldTrans.localScale;
+        newTransRot = oldTrans.parent.localRotation;
         colorToTransform = color;
 
         //saved to reverse
         prevTransPos = newTransPos;
         prevTransSca = newTransSca;
+        prevTransRot = newTransRot;
+
+        prevRotArray = new int[] { partsRot[0], partsRot[1], partsRot[2] };
+
+        if(icon <= 3)
+        {
+            icon += partsRot[color];
+            if (icon >= 4)
+                icon -= 4;
+        }
+
+        if(icon == 4 || icon == 6)
+        {
+            if (partsRot[color] == 1 || partsRot[color] == 3)
+                icon += 1;
+        }
+
+        if (icon == 5 || icon == 7)
+        {
+            if (partsRot[color] == 1 || partsRot[color] == 3)
+                icon -= 1;
+        }
+
+        if (icon >= 8 && icon <= 11)
+        {
+            icon += partsRot[color];
+            if (icon >= 12)
+                icon -= 4;
+        }
+
+        if (icon >= 12 && icon <= 15)
+        {
+            icon += partsRot[color];
+            if (icon >= 16)
+                icon -= 4;
+        }
 
         switch (icon)
         {
             case 0:
-                //left
-                newTransPos += new Vector3(-0.5f, 0f, 0f);
-                    break;
+                //up
+                newTransPos += new Vector3(0f, .5f, 0f);
+                break;
             case 1:
                 //right
                 newTransPos += new Vector3(+0.5f, 0f, 0f);
                 break;
             case 2:
-                //up
-                newTransPos += new Vector3(0f, .5f, 0f);
-                break;
-            case 3:
                 //down
                 newTransPos += new Vector3(0f, -.5f, 0f);
                 break;
+            case 3:
+                //left
+                newTransPos += new Vector3(-0.5f, 0f, 0f);
+                break;
+
             case 4:
                 //conH
                 if (newTransSca.x > scaleUnit)
@@ -233,17 +294,18 @@ public class NewPlayer : MonoBehaviour {
                 }
                 break;
             case 5:
-                //exHo
-                if (newTransSca.x < scaleMax)
-                {
-                    newTransSca += new Vector3(scaleUnit, 0f, 0f);
-                }
-                break;
-            case 6:
                 //conV
                 if (newTransSca.y > scaleUnit)
                 {
                     newTransSca += new Vector3(0f, -scaleUnit, 0f);
+                }
+                break;
+
+            case 6:
+                //exHo
+                if (newTransSca.x < scaleMax)
+                {
+                    newTransSca += new Vector3(scaleUnit, 0f, 0f);
                 }
                 break;
             case 7:
@@ -253,12 +315,13 @@ public class NewPlayer : MonoBehaviour {
                     newTransSca += new Vector3(0f, scaleUnit, 0f);
                 }
                 break;
+
             case 8:
-                //exLeft
-                if (newTransSca.x < scaleMax)
+                //exUp
+                if (newTransSca.y < scaleMax)
                 {
-                    newTransPos += new Vector3(-0.25f, 0f, 0f);
-                    newTransSca += new Vector3(scaleUnit/2, 0f, 0f);
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca += new Vector3(0f, scaleUnit/2, 0f);
                 }
                 break;
             case 9:
@@ -270,27 +333,28 @@ public class NewPlayer : MonoBehaviour {
                 }
                 break;
             case 10:
-                //exUp
-                if (newTransSca.y < scaleMax)
-                {
-                    newTransPos += new Vector3(0f, 0.25f, 0f);
-                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
-                }
-                break;
-            case 11:
                 //exDown
                 if (newTransSca.y < scaleMax)
                 {
-                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransPos += new Vector3(0f, -0.25f, 0f);
                     newTransSca += new Vector3(0f, scaleUnit / 2, 0f);
                 }
                 break;
-            case 12:
-                //contrLeft
-                if (newTransSca.x > scaleUnit/2)
+            case 11:
+                //exLeft
+                if (newTransSca.x < scaleMax)
                 {
-                    newTransPos += new Vector3(0.25f, 0f, 0f);
-                    newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                    newTransPos += new Vector3(-0.25f, 0f, 0f);
+                    newTransSca += new Vector3(scaleUnit / 2, 0f, 0f);
+                }
+                break;
+
+            case 12:
+                //contrUp
+                if (newTransSca.y > scaleUnit / 2)
+                {
+                    newTransPos += new Vector3(0f, -0.25f, 0f);
+                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
                 }
                 break;
             case 13:
@@ -302,14 +366,6 @@ public class NewPlayer : MonoBehaviour {
                 }
                 break;
             case 14:
-                //contrUp
-                if (newTransSca.y > scaleUnit / 2)
-                {
-                    newTransPos += new Vector3(0f, -0.25f, 0f);
-                    newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
-                }
-                break;
-            case 15:
                 //contrDown
                 if (newTransSca.y > scaleUnit / 2)
                 {
@@ -317,6 +373,32 @@ public class NewPlayer : MonoBehaviour {
                     newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
                 }
                 break;
+            case 15:
+                //contrLeft
+                if (newTransSca.x > scaleUnit / 2)
+                {
+                    newTransPos += new Vector3(0.25f, 0f, 0f);
+                    newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                }
+                break;
+
+            case 16:
+                //turnLeft
+                Debug.Log("turn left");
+                newTransRot = Quaternion.Euler(newTransRot.eulerAngles + new Vector3(0f, 0f, 90f));
+                partsRot[color] += 1;
+                if (partsRot[color] == 4)
+                    partsRot[color] = 0;
+                break;
+            case 17:
+                //turnRight
+                Debug.Log("turn right");
+                newTransRot = Quaternion.Euler(newTransRot.eulerAngles + new Vector3(0f, 0f, -90f));
+                partsRot[color] -= 1;
+                if (partsRot[color] == -1)
+                    partsRot[color] = 3;
+                break;
+
 
 
             default:

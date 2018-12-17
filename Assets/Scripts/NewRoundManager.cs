@@ -340,18 +340,19 @@ public class NewRoundManager : MonoBehaviour {
             if (square.colNumber == startCol && square.rowNumber == startRow)
             {
                 playerScript.moveTo = square.transform.position;
+                playerScript.prevPosition = square.transform.position;
                 player.transform.position = square.transform.position;
                 reference.GetComponent<NewPlayer>().moveTo = square.transform.position;
                 reference.transform.position = square.transform.position;
-                playerScript.canMove = true;
-                playerScript.oldTrans = null;
-
 
                 playerScript.xPos = startCol;
                 playerScript.yPos = startRow;
                 TurnIconsOn(true);
                 playerScript.Reset();
                 playerScript.MoveUpForRaycast();
+
+                playerScript.canMove = true;
+                playerScript.oldTrans = null;
             }
             
         }

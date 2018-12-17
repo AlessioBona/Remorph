@@ -16,22 +16,22 @@ public class Square2D : MonoBehaviour {
 
     public enum Icon : int
     {
-        left,
-        right,
         up,
+        right,
         down,
+        left,
         contr_Horiz,
-        expand_Horiz,
         contr_Vert,
+        expand_Horiz,
         expand_Vert,
-        expand_Left,
-        expand_Right,
         expand_Up,
+        expand_Right,
         expand_Down,
-        contr_Left,
-        contr_Right,
+        expand_Left,
         contr_Up,
+        contr_Right,
         contr_Down,
+        contr_Left,
         turn_Left,
         turn_Right
     };

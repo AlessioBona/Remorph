@@ -218,6 +218,7 @@ public class NewPlayer : MonoBehaviour {
 
     public void TransformParts(int color, int icon)
     {
+        float lineWidth = 6f;
         float scaleUnit = 50f;
         float scaleMax = 800f;
         oldTrans = parts[color].transform;
@@ -292,6 +293,10 @@ public class NewPlayer : MonoBehaviour {
                 {
                     newTransSca += new Vector3(-scaleUnit, 0f, 0f);
                 }
+                else if (newTransSca.x <= scaleUnit && newTransSca.x > scaleUnit/2)
+                {
+                    newTransSca.x = lineWidth;
+                }
                 break;
             case 5:
                 //conV
@@ -299,18 +304,27 @@ public class NewPlayer : MonoBehaviour {
                 {
                     newTransSca += new Vector3(0f, -scaleUnit, 0f);
                 }
+                else if (newTransSca.y <= scaleUnit && newTransSca.y > scaleUnit/2)
+                {
+                    newTransSca.y = lineWidth;
+                }
                 break;
-
             case 6:
                 //exHo
-                if (newTransSca.x < scaleMax)
+                if (Mathf.Approximately(newTransSca.x, lineWidth))
+                {
+                    newTransSca.x = scaleUnit;
+                } else if (newTransSca.x < scaleMax)
                 {
                     newTransSca += new Vector3(scaleUnit, 0f, 0f);
                 }
                 break;
             case 7:
                 //exVe
-                if (newTransSca.y < scaleMax)
+                if (Mathf.Approximately(newTransSca.y, lineWidth))
+                {
+                    newTransSca.y = scaleUnit;
+                } else if (newTransSca.y < scaleMax)
                 {
                     newTransSca += new Vector3(0f, scaleUnit, 0f);
                 }
@@ -318,7 +332,12 @@ public class NewPlayer : MonoBehaviour {
 
             case 8:
                 //exUp
-                if (newTransSca.y < scaleMax)
+                if (Mathf.Approximately(newTransSca.y, lineWidth))
+                {
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca.y = scaleUnit/2;
+                }
+                else if (newTransSca.y < scaleMax)
                 {
                     newTransPos += new Vector3(0f, 0.25f, 0f);
                     newTransSca += new Vector3(0f, scaleUnit/2, 0f);
@@ -326,7 +345,12 @@ public class NewPlayer : MonoBehaviour {
                 break;
             case 9:
                 //exRight
-                if (newTransSca.x < scaleMax)
+                if (Mathf.Approximately(newTransSca.x, lineWidth))
+                {
+                    newTransPos += new Vector3(0.25f, 0f, 0f);
+                    newTransSca.x = scaleUnit / 2;
+                }
+                else if (newTransSca.x < scaleMax)
                 {
                     newTransPos += new Vector3(0.25f, 0f, 0f);
                     newTransSca += new Vector3(scaleUnit/2, 0f, 0f);
@@ -334,7 +358,12 @@ public class NewPlayer : MonoBehaviour {
                 break;
             case 10:
                 //exDown
-                if (newTransSca.y < scaleMax)
+                if (Mathf.Approximately(newTransSca.y, lineWidth))
+                {
+                    newTransPos += new Vector3(0f, -0.25f, 0f);
+                    newTransSca.y = scaleUnit / 2;
+                }
+                else if(newTransSca.y < scaleMax)
                 {
                     newTransPos += new Vector3(0f, -0.25f, 0f);
                     newTransSca += new Vector3(0f, scaleUnit / 2, 0f);
@@ -342,7 +371,12 @@ public class NewPlayer : MonoBehaviour {
                 break;
             case 11:
                 //exLeft
-                if (newTransSca.x < scaleMax)
+                if (Mathf.Approximately(newTransSca.x, lineWidth))
+                {
+                    newTransPos += new Vector3(-0.25f, 0f, 0f);
+                    newTransSca.x = scaleUnit / 2;
+                }
+                else if (newTransSca.x < scaleMax)
                 {
                     newTransPos += new Vector3(-0.25f, 0f, 0f);
                     newTransSca += new Vector3(scaleUnit / 2, 0f, 0f);
@@ -356,6 +390,11 @@ public class NewPlayer : MonoBehaviour {
                     newTransPos += new Vector3(0f, -0.25f, 0f);
                     newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
                 }
+                else if (Mathf.Approximately(newTransSca.y, scaleUnit / 2))
+                {
+                    newTransPos += new Vector3(0f, -0.25f, 0f);
+                    newTransSca.y = lineWidth;
+                }
                 break;
             case 13:
                 //contrRight
@@ -363,6 +402,10 @@ public class NewPlayer : MonoBehaviour {
                 {
                     newTransPos += new Vector3(-0.25f, 0f, 0f);
                     newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                }
+                else if (Mathf.Approximately(newTransSca.x, scaleUnit / 2)){
+                    newTransPos += new Vector3(-0.25f, 0f, 0f);
+                    newTransSca.x = lineWidth;
                 }
                 break;
             case 14:
@@ -372,6 +415,11 @@ public class NewPlayer : MonoBehaviour {
                     newTransPos += new Vector3(0f, 0.25f, 0f);
                     newTransSca += new Vector3(0f, -scaleUnit / 2, 0f);
                 }
+                else if (Mathf.Approximately(newTransSca.y, scaleUnit / 2))
+                {
+                    newTransPos += new Vector3(0f, 0.25f, 0f);
+                    newTransSca.y = lineWidth;
+                }
                 break;
             case 15:
                 //contrLeft
@@ -379,6 +427,11 @@ public class NewPlayer : MonoBehaviour {
                 {
                     newTransPos += new Vector3(0.25f, 0f, 0f);
                     newTransSca += new Vector3(-scaleUnit / 2, 0f, 0f);
+                }
+                else if (Mathf.Approximately(newTransSca.x, scaleUnit / 2))
+                {
+                    newTransPos += new Vector3(0.25f, 0f, 0f);
+                    newTransSca.x = lineWidth;
                 }
                 break;
 

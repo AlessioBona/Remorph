@@ -46,6 +46,7 @@ public class NewRoundManager : MonoBehaviour {
     public List<List<int[]>> squaresData = new List<List<int[]>>();
 
     Vector2 touchPositionStart;
+
     bool iconsOn = true;
     bool youWon = false;
 

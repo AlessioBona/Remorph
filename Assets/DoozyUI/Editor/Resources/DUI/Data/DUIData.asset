@@ -17,6 +17,7 @@ MonoBehaviour:
       itemNames:
       - BackGround
       - InGame
+      - LevelEditor
       - LevelSelect
       - LoadScreen
       - MainMenu
@@ -44,6 +45,7 @@ MonoBehaviour:
       itemNames:
       - ApplicationQuit
       - Back
+      - LevelEditor
       - LevelSelect
       - Play
       - QuitLevel

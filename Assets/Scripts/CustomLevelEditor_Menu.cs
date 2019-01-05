@@ -28,12 +28,12 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
 
         if (Application.isPlaying && !Application.isEditor)
         {
-            dataPath = Application.persistentDataPath;
+            dataPath = Application.persistentDataPath + "/";
         }
 
         if (Application.isPlaying && Application.isEditor)
         {
-            dataPath = Application.dataPath;
+            dataPath = Application.dataPath + "/Resources/CustomLevels/";
         }
     }
 
@@ -64,6 +64,29 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
             GameObject newButton = Instantiate(customLevelButton_prefab, grid);
             newButton.GetComponentInChildren<TextMeshProUGUI>().text = assetsArray[i].name;
         }
+
+        string[] savedFilesArray = CreateSavedFilesArray();
+
+        for (int i = 0; i < savedFilesArray.Length; i++)
+        {
+            GameObject newButton = Instantiate(customLevelButton_prefab, grid);
+            newButton.GetComponentInChildren<TextMeshProUGUI>().text = savedFilesArray[i];
+        }
+    }
+
+    private string[] CreateSavedFilesArray()
+    {
+        var info = new DirectoryInfo(dataPath);
+        FileInfo[] fileInfo = info.GetFiles();
+
+        string[] assetsArray = new string[fileInfo.Length];
+
+        for(int i = 0; i < assetsArray.Length; i++)
+        {
+            assetsArray[i] = fileInfo[i].ToString();
+        }
+
+        return assetsArray;
     }
 
     private TextAsset[] CreateAssetArray()
@@ -74,7 +97,7 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
 
     public void CreateNewLevel()
     {
-        File.WriteAllText(dataPath + "/Resources/CustomLevels/" + inputNewLevelName.text +".txt", "ok");
+        File.WriteAllText(dataPath + inputNewLevelName.text +".txt", "ok");
         // add to menu
         GameObject newButton = Instantiate(customLevelButton_prefab, grid);
         newButton.GetComponentInChildren<TextMeshProUGUI>().text = inputNewLevelName.text;

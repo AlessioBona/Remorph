@@ -18,9 +18,10 @@ MonoBehaviour:
       - BackGround
       - InGame
       - LevelEditor
+      - LevelEditorSelector
       - LevelSelect
-      - LoadScreen
       - MainMenu
+      - NewLevelName
       - Settings
       - Tutorial
       - YouWon
@@ -45,8 +46,11 @@ MonoBehaviour:
       itemNames:
       - ApplicationQuit
       - Back
-      - LevelEditor
+      - CreateLevel
+      - CustomLevelButton
+      - LevelEditorSelector
       - LevelSelect
+      - NewLevel
       - Play
       - QuitLevel
       - Reset

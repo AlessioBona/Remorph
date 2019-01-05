@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using System.IO;
+using Newtonsoft.Json;
 
 public class CustomLevelEditor_Menu : MonoBehaviour {
 
@@ -21,10 +22,12 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
     [SerializeField]
     TMP_InputField inputNewLevelName;
 
+    int lastCreatedLevelID = 0;
+
+    List<LevelInfo> customLevelsList;
+
     void Awake()
     {
-        DestroyPlaceholder();
-        UpdateSelectMenu();
 
         if (Application.isPlaying && !Application.isEditor)
         {
@@ -35,9 +38,16 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
         {
             dataPath = Application.dataPath + "/Resources/CustomLevels/";
         }
+
+
+        DeactivatePlaceholder();
+
+        UpdateSelectMenu();
+
+
     }
 
-    private void DestroyPlaceholder()
+    private void DeactivatePlaceholder()
     {
         if (buttonPlaceholder.gameObject.activeSelf)
         {
@@ -57,47 +67,105 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
 
     public void UpdateSelectMenu()
     {
-        TextAsset[] assetsArray = CreateAssetArray();
+        customLevelsList = new List<LevelInfo>();
 
-        for(int i = 0; i < assetsArray.Length; i++)
+        ImportCustomLevelsFromAssets();
+
+        ImportCustomLevelsFromSavedFiles();
+
+        for (int i = 0; i < customLevelsList.Count; i++)
         {
             GameObject newButton = Instantiate(customLevelButton_prefab, grid);
-            newButton.GetComponentInChildren<TextMeshProUGUI>().text = assetsArray[i].name;
+            newButton.GetComponentInChildren<TextMeshProUGUI>().text = customLevelsList[i].levelName;
         }
 
-        string[] savedFilesArray = CreateSavedFilesArray();
+        //TextAsset[] assetsArray = CreateCustomFromAssetsArray();
 
-        for (int i = 0; i < savedFilesArray.Length; i++)
-        {
-            GameObject newButton = Instantiate(customLevelButton_prefab, grid);
-            newButton.GetComponentInChildren<TextMeshProUGUI>().text = savedFilesArray[i];
-        }
+        //for(int i = 0; i < assetsArray.Length; i++)
+        //{
+        //    GameObject newButton = Instantiate(customLevelButton_prefab, grid);
+        //    newButton.GetComponentInChildren<TextMeshProUGUI>().text = assetsArray[i].name;
+        //}
+
+        //string[] savedFilesArray = CreateSavedFilesArray();
+
+        //for (int i = 0; i < savedFilesArray.Length; i++)
+        //{
+        //    GameObject newButton = Instantiate(customLevelButton_prefab, grid);
+        //    newButton.GetComponentInChildren<TextMeshProUGUI>().text = savedFilesArray[i];
+        //}
+
+
     }
 
-    private string[] CreateSavedFilesArray()
+    private void ImportCustomLevelsFromSavedFiles()
     {
-        var info = new DirectoryInfo(dataPath);
-        FileInfo[] fileInfo = info.GetFiles();
-
-        string[] assetsArray = new string[fileInfo.Length];
-
-        for(int i = 0; i < assetsArray.Length; i++)
+        if (Application.isPlaying && !Application.isEditor)
         {
-            assetsArray[i] = fileInfo[i].ToString();
+
+            var info = new DirectoryInfo(dataPath);
+
+            FileInfo[] fileInfo = info.GetFiles();
+
+            //string[] fileNamesArray = new string[fileInfo.Length];
+
+            for (int i = 0; i < fileInfo.Length; i++)
+            {
+                string texto = File.ReadAllText(fileInfo[i].FullName);
+                LevelInfo thisLevel = JsonConvert.DeserializeObject<LevelInfo>(texto);
+                customLevelsList.Add(thisLevel);
+            }
         }
 
-        return assetsArray;
     }
 
-    private TextAsset[] CreateAssetArray()
+    private void ImportCustomLevelsFromAssets()
     {
         TextAsset[] assetsArray = Resources.LoadAll<TextAsset>("CustomLevels");
-        return assetsArray;
+
+        for (int i = 0; i < assetsArray.Length; i++)
+        {
+            LevelInfo thisLevel = JsonConvert.DeserializeObject<LevelInfo>(assetsArray[i].text);
+            customLevelsList.Add(thisLevel);
+        }
+
     }
+
+    //private string[] CreateSavedFilesArray()
+    //{
+    //    var info = new DirectoryInfo(dataPath);
+
+    //    FileInfo[] fileInfo = info.GetFiles();
+
+    //    string[] assetsArray = new string[fileInfo.Length];
+
+
+    //    for(int i = 0; i < assetsArray.Length; i++)
+    //    {
+    //        assetsArray[i] = fileInfo[i].ToString();
+    //    }
+
+    //    return assetsArray;
+    //}
+
+    //private TextAsset[] CreateCustomFromAssetsArray()
+    //{
+    //    TextAsset[] assetsArray = Resources.LoadAll<TextAsset>("CustomLevels");
+    //    return assetsArray;
+    //}
 
     public void CreateNewLevel()
     {
-        File.WriteAllText(dataPath + inputNewLevelName.text +".txt", "ok");
+
+        LevelInfo newLevel = new LevelInfo
+        {
+            levelID = lastCreatedLevelID + 1,
+            levelName = inputNewLevelName.text
+        };
+
+        string serializedNewLevel = JsonConvert.SerializeObject(newLevel, Formatting.Indented);
+
+        File.WriteAllText(dataPath + inputNewLevelName.text +".txt", serializedNewLevel);
         // add to menu
         GameObject newButton = Instantiate(customLevelButton_prefab, grid);
         newButton.GetComponentInChildren<TextMeshProUGUI>().text = inputNewLevelName.text;

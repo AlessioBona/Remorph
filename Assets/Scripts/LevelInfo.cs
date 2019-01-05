@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LevelInfo {
 
-    public int levelNumber { get; set; }
+    public int levelID { get; set; }
+    public string levelName { get; set; }
     public int rows { get; set; }
     public int columns { get; set; }
     public int startCol { get; set; }

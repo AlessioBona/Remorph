@@ -18,11 +18,15 @@ MonoBehaviour:
       - BackGround
       - InGame
       - LevelEditor
+      - LevelEditorFrame
       - LevelEditorSelector
       - LevelSelect
       - MainMenu
       - NewLevelName
+      - PlayerEditor
       - Settings
+      - SquareEditorBottom
+      - SquareEditorTop
       - Tutorial
       - YouWon
       isExpanded:

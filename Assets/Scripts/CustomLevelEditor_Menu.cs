@@ -5,6 +5,10 @@ using TMPro;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using GameSparks.Api;
+using GameSparks.Api.Requests;
+using GameSparks.Api.Responses;
+using GameSparks.Core;
 
 public class CustomLevelEditor_Menu : MonoBehaviour {
 
@@ -165,9 +169,17 @@ public class CustomLevelEditor_Menu : MonoBehaviour {
 
         string serializedNewLevel = JsonConvert.SerializeObject(newLevel, Formatting.Indented);
 
-        File.WriteAllText(dataPath + inputNewLevelName.text +".txt", serializedNewLevel);
+        File.WriteAllText(dataPath + inputNewLevelName.text + ".txt", serializedNewLevel);
         // add to menu
         GameObject newButton = Instantiate(customLevelButton_prefab, grid);
         newButton.GetComponentInChildren<TextMeshProUGUI>().text = inputNewLevelName.text;
+
+        GSRequestData parsedJson = new GSRequestData(serializedNewLevel);
+
+        var sparks = new LogEventRequest_STORE_CUSTOM_LEVEL().Set_LEVEL_NAME("some name").Set_LEVEL_DATA(parsedJson);
+        sparks.Send(response =>
+       {
+           //GSData scriptData = response.ScriptData;
+       });
     }
 }

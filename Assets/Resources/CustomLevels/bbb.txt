@@ -1,0 +1,9 @@
+{
+  "levelID": 1,
+  "levelName": "bbb",
+  "rows": 0,
+  "columns": 0,
+  "startCol": 0,
+  "startRow": 0,
+  "squareMatrix": null
+}

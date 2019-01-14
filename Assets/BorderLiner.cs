@@ -10,13 +10,13 @@ public class BorderLiner : MonoBehaviour {
     public bool renderIt;
 
 
-    private int[][] grid = new int[][] {
+    private int[][] PlayerGrid = new int[][] {
         new int[]{ 1, 1, 0, 0, 0, 1},
-        new int[]{ 1, 1, 0, 0, 1, 1},
-        new int[]{ 0, 0, 1, 0, 0, 1},
-        new int[]{ 0, 0, 0, 1, 1, 1},
-        new int[]{ 1, 1, 0, 0, 1, 1},
-        new int[]{ 1, 0, 0, 0, 0, 0},
+        new int[]{ 1, 0, 1, 1, 1, 1},
+        new int[]{ 1, 0, 1, 0, 0, 1},
+        new int[]{ 0, 0, 1, 0, 1, 1},
+        new int[]{ 1, 0, 0, 0, 1, 1},
+        new int[]{ 1, 1, 1, 0, 0, 0},
     };
 
     int[][] CreateKnotGrid (int[][] BWgrid)
@@ -109,23 +109,93 @@ public class BorderLiner : MonoBehaviour {
         if (renderIt)
         {
 
-            int[][] print = CreateKnotGrid(grid);
-            Debug.Log(print[0][0]);
-            Debug.Log(print[0][1]);
-            Debug.Log(print[0][2]);
-
-            List<Vector3[]> contour = CreateLines();
+            int[][] newKnotGrid = CreateKnotGrid(PlayerGrid);
+            List<Vector3[]> contour = CreateLines(newKnotGrid);
             RenderContour(contour);
         }
 	}
 
-    List<Vector3[]> CreateLines()
+    List<Vector3[]> CreateLines(int[][] knotGrid)
     {
+        Vector3 startPoint = new Vector3(-2f, 2f, 0f);
+        float abstand = 0.5f;
+
         List<Vector3[]> toDraw = new List<Vector3[]>();
 
-        toDraw.Add(new Vector3[] { new Vector3(0f, 0f), new Vector3(0f, 1f) });
-        toDraw.Add(new Vector3[] { new Vector3(0f, 1f), new Vector3(2f, 1f) });
-        toDraw.Add(new Vector3[] { new Vector3(2f, 1f), new Vector3(2f, 3f) });
+        bool lineStarted = false;
+
+        for(int i = 0; i < knotGrid.Length; i++)
+        {
+            Vector3[] newLine = new Vector3[2];
+
+            for(int e = 0; e < knotGrid[i].Length; e++)
+            {
+                int aK = knotGrid[i][e];
+                if(
+                    aK == 90001 ||
+                    aK == 90010 ||
+                    aK == 90100 ||
+                    aK == 91000 ||
+                    aK == 91110 ||
+                    aK == 91101 ||
+                    aK == 91011 ||
+                    aK == 90111
+                    )
+                {
+                    if (!lineStarted)
+                    {
+                        lineStarted = true;
+                        newLine = new Vector3[2];
+                        newLine[0] = new Vector3(e*abstand, -i*abstand) + startPoint;
+                    } else if (lineStarted)
+                    {
+                        lineStarted = false;
+                        newLine[1] = new Vector3(e * abstand, -i * abstand) + startPoint;
+                        toDraw.Add(newLine);
+                    }
+                }
+            }
+
+        }
+
+        // VERTICAL
+
+        for (int i = 0; i < knotGrid[0].Length; i++)
+        {
+            Vector3[] newLine = new Vector3[2];
+
+            for (int e = 0; e < knotGrid.Length; e++)
+            {
+                int aK = knotGrid[e][i];
+                if (
+                    aK == 90001 ||
+                    aK == 90010 ||
+                    aK == 90100 ||
+                    aK == 91000 ||
+                    aK == 91110 ||
+                    aK == 91101 ||
+                    aK == 91011 ||
+                    aK == 90111
+                    )
+                {
+                    if (!lineStarted)
+                    {
+                        lineStarted = true;
+                        newLine = new Vector3[2];
+                        newLine[0] = new Vector3(i * abstand, -e * abstand) + startPoint;
+                    }
+                    else if (lineStarted)
+                    {
+                        lineStarted = false;
+                        newLine[1] = new Vector3(i * abstand, -e * abstand) + startPoint;
+                        toDraw.Add(newLine);
+                    }
+                }
+            }
+
+        }
+
+
 
         return toDraw;
     }
@@ -159,8 +229,8 @@ public class BorderLiner : MonoBehaviour {
         lRend.endColor = Color.red;
         lRend.numCapVertices = 10;
         lRend.material = new Material(Shader.Find("Particles/Additive"));
-        lRend.startWidth = .2f;
-        lRend.endWidth = .2f;
+        lRend.startWidth = .1f;
+        lRend.endWidth = .1f;
         lRend.SetPosition(0, start);
         lRend.SetPosition(1, stop);
     }

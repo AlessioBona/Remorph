@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EditorDot : MonoBehaviour {
 
+    [SerializeField]
+    public int[] coords = new int[] { 0, 0 };
+
 	// Use this for initialization
 	void Start () {
 		

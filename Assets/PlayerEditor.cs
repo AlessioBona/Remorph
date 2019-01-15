@@ -10,6 +10,8 @@ public class PlayerEditor : MonoBehaviour {
 
     EditorDot[][] block_dots;
 
+    EditorSquare[] block_squares;
+
     Camera mainCamera;
 
     private Plane gridPlane;
@@ -21,26 +23,45 @@ public class PlayerEditor : MonoBehaviour {
         mainCamera = FindObjectOfType<Camera>();
         blocks = GetComponentsInChildren<EditorBlock>();
         block_dots = new EditorDot[blocks.Length][];
-        for(int i = 0; i < blocks.Length; i++)
+        block_squares = new EditorSquare[blocks.Length];
+        for (int i = 0; i < blocks.Length; i++)
         {
             block_dots[i] = blocks[i].GetComponentsInChildren<EditorDot>();
+            block_squares[i] = blocks[i].GetComponentInChildren<EditorSquare>();
         }
 
+        RepositionDotsAndSquare();
+    }
 
+    private void RepositionDotsAndSquare()
+    {
         for (int i = 0; i < block_dots.Length; i++)
         {
             for (int e = 0; e < block_dots[i].Length; e++)
             {
-                SituateDot(block_dots[i][e], block_dots[i][e].coords[0], block_dots[i][e].coords[1]);
+                block_dots[i][e].transform.position = GetDotCoordinates(block_dots[i][e]);
             }
+
+            SituateSquare(block_dots[i][0], block_dots[i][1], block_squares[i]);
+
         }
-
-
     }
 
-    private void SituateDot(EditorDot editorDot, int x, int y)
+    private Vector3 GetDotCoordinates(EditorDot editorDot)
     {
-        editorDot.transform.position = new Vector3(-7.5f + (x * 2.5f + 1.25f), 7.5f - (y * 2.5f + 1.25f));
+        int x = editorDot.coords[0];
+        int y = editorDot.coords[1];
+        return new Vector3(-7.5f + (x * 2.5f + 1.25f), 7.5f - (y * 2.5f + 1.25f));
+    }
+
+    private void SituateSquare(EditorDot dot1, EditorDot dot2, EditorSquare square)
+    {
+        Vector3 dot1_c = GetDotCoordinates(dot1);
+        Vector3 dot2_c = GetDotCoordinates(dot2);
+
+        square.transform.position = (dot1_c + dot2_c) /2;
+
+        square.transform.localScale = new Vector3(42.5f * (Mathf.Abs(dot1.coords[0] - dot2.coords[0]) +1), 42.5f * (Mathf.Abs(dot1.coords[1] - dot2.coords[1]) +1));
     }
 
     Vector3 dotsStartPoint = new Vector3(-200f, 200f);
@@ -53,9 +74,10 @@ public class PlayerEditor : MonoBehaviour {
 	}
 
     EditorDot selectedDot;
-	
-	// Update is called once per frame
-	void Update () {
+    private bool dragging = false;
+
+    // Update is called once per frame
+    void Update () {
 
         if (Input.touchCount > 0)
         {
@@ -76,6 +98,7 @@ public class PlayerEditor : MonoBehaviour {
                             if(block_dots[i][e].coords[0] == coords[0] && block_dots[i][e].coords[1] == coords[1])
                             {
                                 selectedDot = block_dots[i][e];
+                                dragging = true;
                                 found = true;
                             }
                         }
@@ -83,6 +106,32 @@ public class PlayerEditor : MonoBehaviour {
                 }
             }
         }
+
+        if (dragging)
+        { 
+            if (Input.touchCount > 0)
+            {
+                Touch touch_0 = Input.GetTouch(0);
+
+                if (touch_0.phase == TouchPhase.Moved)
+                {
+                    int[] coords = rayCastForGrid(touch_0);
+                    if(coords[0] != 99 && coords[1] != 99)
+                    {
+                        selectedDot.coords[0] = coords[0];
+                        selectedDot.coords[1] = coords[1];
+                        selectedDot.transform.position = GetDotCoordinates(selectedDot);
+                        RepositionDotsAndSquare();
+                    }
+                    
+                } else if(touch_0.phase == TouchPhase.Ended)
+                {
+                    selectedDot = null;
+                }
+            }
+
+        }
+
 	}
 
     private int[] rayCastForGrid(Touch touch_0)
@@ -116,8 +165,6 @@ public class PlayerEditor : MonoBehaviour {
         } // end of "ifOnTheGrid"
 
         //block_dots[0][0].transform.position = new Vector3(-7.5f + (x * 2.5f + 1.25f), 7.5f - (y * 2.5f + 1.25f));
-        Debug.Log(x + " " + y);
-
         return new int[] { x, y };
     }
 }

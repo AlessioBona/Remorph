@@ -17,7 +17,9 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     GameObject squarePrefab;
 
     [SerializeField]
-    Transform squaresParent;
+    public Transform squaresParent;
+
+    CustomLevelEditor_SelectIcon selectIcon;
 
     string dataPath;
 
@@ -26,6 +28,8 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
 
     private void Awake()
     {
+        selectIcon = GetComponentInChildren<CustomLevelEditor_SelectIcon>();
+        selectIcon.gameObject.SetActive(false);
         BlankLevelInfos();
         InstantiateSquares(maxRows, maxCols);
         ActivateSquares();
@@ -64,9 +68,13 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         }
     }
 
+
+
     public void SquareClicked(Square2D clickedSquare)
     {
-        Debug.Log(clickedSquare.rowNumber + " " + clickedSquare.colNumber);
+        squaresParent.gameObject.SetActive(false);
+        selectIcon.gameObject.SetActive(true);
+        Debug.Log("clicked on: " + clickedSquare.rowNumber + " " + clickedSquare.colNumber);
     }
 
     private void ActivateSquares()
@@ -97,6 +105,10 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         }
     }
 
+    public void UpdateSquare(int selected, int color)
+    {
+        Debug.Log("update a Square to " + selected + " " + color);
+    }
 
 
     private void RefreshLayout()

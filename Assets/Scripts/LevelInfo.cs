@@ -11,7 +11,8 @@ public class LevelInfo {
     public int startCol { get; set; }
     public int startRow { get; set; }
     public List<List<int>> squareMatrix { get; set; } //in NewRoundManager: squaresData
-    public int[][][] playerForm { get; set; }
+    //public int[][][] playerForm { get; set; }
+    public int[][] playerForm { get; set; }
 
     public LevelInfo()
     {
@@ -21,22 +22,31 @@ public class LevelInfo {
         squareMatrix.Add(new List<int>());
         squareMatrix[0].Add(999);
 
-        // initialize standard player
-        playerForm = new int[3][][];
-        for(int i = 0; i < playerForm.Length; i++)
+        //standard PLAYER
+        playerForm = new int[3][];
+        for (int i = 0; i < playerForm.Length; i++)
         {
-            playerForm[i] = new int[6][];
-            for(int e = 0; e < playerForm[i].Length; e++)
-            {
-                playerForm[i][e] = new int[6];
-            }
+            playerForm[i] = new int[2];
+            playerForm[i][0] = i*2;
+            playerForm[i][0] = i*2 + 1;
         }
-        playerForm[0][0][0] = 1;
-        playerForm[0][1][1] = 1;
-        playerForm[1][2][2] = 1;
-        playerForm[1][3][3] = 1;
-        playerForm[2][4][4] = 1;
-        playerForm[2][5][5] = 1;
+
+        // initialize standard player
+        //playerForm = new int[3][][];
+        //for(int i = 0; i < playerForm.Length; i++)
+        //{
+        //    playerForm[i] = new int[6][];
+        //    for(int e = 0; e < playerForm[i].Length; e++)
+        //    {
+        //        playerForm[i][e] = new int[6];
+        //    }
+        //}
+        //playerForm[0][0][0] = 1;
+        //playerForm[0][1][1] = 1;
+        //playerForm[1][2][2] = 1;
+        //playerForm[1][3][3] = 1;
+        //playerForm[2][4][4] = 1;
+        //playerForm[2][5][5] = 1;
 
     }
 

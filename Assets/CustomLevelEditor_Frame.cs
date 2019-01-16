@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using UnityEngine.UI;
 
 public class CustomLevelEditor_Frame : MonoBehaviour {
 
@@ -56,8 +57,16 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                 linesRows[r].Add(newSquare);
                 newSquare.GetComponent<Square2D>().rowNumber = r;
                 newSquare.GetComponent<Square2D>().colNumber = c;
+                Button thisButton = newSquare.gameObject.AddComponent<Button>();
+
+                thisButton.onClick.AddListener( () => SquareClicked( newSquare.GetComponent<Square2D>() ) );
             }
         }
+    }
+
+    public void SquareClicked(Square2D clickedSquare)
+    {
+        Debug.Log(clickedSquare.rowNumber + " " + clickedSquare.colNumber);
     }
 
     private void ActivateSquares()

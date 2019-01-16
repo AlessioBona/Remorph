@@ -55,6 +55,7 @@ MonoBehaviour:
       - LevelEditorSelector
       - LevelSelect
       - NewLevel
+      - NormalButton
       - Play
       - QuitLevel
       - Reset

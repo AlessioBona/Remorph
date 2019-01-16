@@ -33,7 +33,11 @@ public class Square2D : MonoBehaviour {
         contr_Down,
         contr_Left,
         turn_Left,
-        turn_Right
+        turn_Right,
+        player = 100,
+        end = 101,
+        empty = 999,
+        notThere = 666,
     };
     public Icon icona;
 

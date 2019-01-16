@@ -39,12 +39,21 @@ public class PlayerEditor : MonoBehaviour {
         {
             for (int e = 0; e < block_dots[i].Length; e++)
             {
-                block_dots[i][e].transform.position = GetDotCoordinates(block_dots[i][e]);
+                //block_dots[i][e].transform.position = GetDotCoordinates(block_dots[i][e]);
+                block_dots[i][e].transform.localPosition = GetDotLocalCoordinates(block_dots[i][e]);
+
             }
 
             SituateSquare(block_dots[i][0], block_dots[i][1], block_squares[i]);
 
         }
+    }
+
+    private Vector3 GetDotLocalCoordinates(EditorDot editorDot)
+    {
+        int x = editorDot.coords[0];
+        int y = editorDot.coords[1];
+        return new Vector3(-42.5f*6 + (x * 42.5f*2 + 42.5f), 42.5f*6 - (y * 42.5f*2 + 42.5f));
     }
 
     private Vector3 GetDotCoordinates(EditorDot editorDot)
@@ -56,10 +65,10 @@ public class PlayerEditor : MonoBehaviour {
 
     private void SituateSquare(EditorDot dot1, EditorDot dot2, EditorSquare square)
     {
-        Vector3 dot1_c = GetDotCoordinates(dot1);
-        Vector3 dot2_c = GetDotCoordinates(dot2);
+        Vector3 dot1_c = GetDotLocalCoordinates(dot1);
+        Vector3 dot2_c = GetDotLocalCoordinates(dot2);
 
-        square.transform.position = (dot1_c + dot2_c) /2;
+        square.transform.localPosition = (dot1_c + dot2_c)/2;
 
         square.transform.localScale = new Vector3(42.5f * (Mathf.Abs(dot1.coords[0] - dot2.coords[0]) +1), 42.5f * (Mathf.Abs(dot1.coords[1] - dot2.coords[1]) +1));
     }
@@ -127,6 +136,7 @@ public class PlayerEditor : MonoBehaviour {
                 } else if(touch_0.phase == TouchPhase.Ended)
                 {
                     selectedDot = null;
+                    dragging = false;
                 }
             }
 

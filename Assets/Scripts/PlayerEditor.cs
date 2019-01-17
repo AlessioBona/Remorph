@@ -16,14 +16,20 @@ public class PlayerEditor : MonoBehaviour {
 
     private Plane gridPlane;
 
+    [SerializeField]
+    CustomLevelEditor_Frame levelEditorFrame;
+
     private void Awake()
     {
+        levelEditorFrame = GetComponentInParent<CustomLevelEditor_Frame>();
+
         gridPlane = new Plane(-Vector3.forward, Vector3.zero);
 
         mainCamera = FindObjectOfType<Camera>();
         blocks = GetComponentsInChildren<EditorBlock>();
         block_dots = new EditorDot[blocks.Length][];
         block_squares = new EditorSquare[blocks.Length];
+
         for (int i = 0; i < blocks.Length; i++)
         {
             block_dots[i] = blocks[i].GetComponentsInChildren<EditorDot>();
@@ -31,6 +37,53 @@ public class PlayerEditor : MonoBehaviour {
         }
 
         RepositionDotsAndSquare();
+    }
+
+
+    // player: int[3][2][2] : block, dot, coords
+    public void ArrangePlayerEditor(int[][][] player)
+    {
+        for (int i = 0; i < block_dots.Length; i++)
+        {
+            block_dots[i][0].coords[0] = player[i][0][0];
+            block_dots[i][0].coords[1] = player[i][0][1];
+            block_dots[i][1].coords[0] = player[i][1][0];
+            block_dots[i][1].coords[1] = player[i][1][1];
+        }
+
+        RepositionDotsAndSquare();
+    }
+
+    private void ExportPlayerForm()
+    {
+        for (int i = 0; i < block_dots.Length; i++)
+        {
+            levelEditorFrame.thisLevelInfos.playerForm[i][0][0] = block_dots[i][0].coords[0];
+            levelEditorFrame.thisLevelInfos.playerForm[i][0][1] = block_dots[i][0].coords[1];
+            levelEditorFrame.thisLevelInfos.playerForm[i][1][0] = block_dots[i][1].coords[0];
+            levelEditorFrame.thisLevelInfos.playerForm[i][1][1] = block_dots[i][1].coords[1];
+        }
+    }
+
+    public void ExportPlayerPicture()
+    {
+        PlayerSimulacrum simulacrum = FindObjectOfType<PlayerSimulacrum>();
+
+        if (simulacrum.GetComponentInChildren<EditorSquare>())
+        {
+            EditorSquare[] toErease = simulacrum.GetComponentsInChildren<EditorSquare>();
+
+            foreach(EditorSquare ciao in toErease) {
+                GameObject.Destroy(ciao.gameObject);
+            }    
+        }
+
+        foreach (EditorSquare block in block_squares)
+        {
+            GameObject fakeBlock = Instantiate(block.gameObject, simulacrum.transform);
+        }
+
+        simulacrum.transform.position = levelEditorFrame.selectedSquare.transform.position;
     }
 
     private void RepositionDotsAndSquare()
@@ -76,11 +129,6 @@ public class PlayerEditor : MonoBehaviour {
     Vector3 dotsStartPoint = new Vector3(-200f, 200f);
     Vector3 gridStartPoint = new Vector3(-240f, 240f);
 
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 
     EditorDot selectedDot;
     private bool dragging = false;
@@ -177,4 +225,17 @@ public class PlayerEditor : MonoBehaviour {
         //block_dots[0][0].transform.position = new Vector3(-7.5f + (x * 2.5f + 1.25f), 7.5f - (y * 2.5f + 1.25f));
         return new int[] { x, y };
     }
+
+    public void OkButton()
+    {
+        // export data structure
+        // compose object player?
+
+        levelEditorFrame.squaresParent.gameObject.SetActive(true);
+        this.gameObject.SetActive(false);
+
+        ExportPlayerForm();
+        ExportPlayerPicture();
+    }
+
 }

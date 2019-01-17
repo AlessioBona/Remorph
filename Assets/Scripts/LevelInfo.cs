@@ -16,7 +16,7 @@ public class LevelInfo {
     public int[][] squareColorMatrix { get; set; } //in NewRoundManager: squaresData
 
     //public int[][][] playerForm { get; set; }
-    public int[][] playerForm { get; set; }
+    public int[][][] playerForm { get; set; }
 
     public LevelInfo()
     {
@@ -45,6 +45,20 @@ public class LevelInfo {
         }
 
 
+        //standard PLAYER
+        playerForm = new int[3][][];
+        for (int i = 0; i < playerForm.Length; i++)
+        {
+            playerForm[i] = new int[2][];
+            for(int e = 0; e < playerForm[i].Length; e++)
+            {
+                playerForm[i][e] = new int[2];
+                playerForm[i][e][0] = i*2 + e;
+                playerForm[i][e][1] = i*2 + e;
+            }
+
+        }
+
         //squareMatrix = new List<List<int>>();
         //for(int i = 0; i < 4; i++)
         //{
@@ -67,15 +81,6 @@ public class LevelInfo {
         //    }
         //}
 
-        //standard PLAYER
-        playerForm = new int[3][];
-        for (int i = 0; i < playerForm.Length; i++)
-        {
-            playerForm[i] = new int[2];
-            playerForm[i][0] = i*2;
-            playerForm[i][1] = i*2 + 1;
-        }
-
         // initialize standard player
         //playerForm = new int[3][][];
         //for(int i = 0; i < playerForm.Length; i++)
@@ -95,6 +100,6 @@ public class LevelInfo {
 
     }
 
-    
+
 
 }

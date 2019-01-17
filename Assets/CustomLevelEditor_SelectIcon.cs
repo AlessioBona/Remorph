@@ -18,7 +18,7 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
     [SerializeField]
     public Sprite[] iconSprites;
 
-    public Square actualSquare;
+    //public GameObject actualSquare;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
 
     }
 
-    int actualColor = 0;
+    public int actualColor = 0;
 
     List<Square2D> buttonList;
 
@@ -156,6 +156,7 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
 
             buttonList.Add(newSquare.GetComponent<Square2D>());
             newSquare.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = iconSprites[s];
+            newSquare.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().color = spriteColors[actualColor];
 
             int sa = s;
             thisButton.onClick.AddListener(() => SelectionDone(sa));
@@ -178,6 +179,9 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
         editorFrame.squaresParent.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
 
+        Debug.Log("selection done, selected: " + selected + " color: " + actualColor);
+        
+        editorFrame.UpdateLevelInfos(selected, actualColor);
         editorFrame.UpdateSquare(selected, actualColor);
     }
 }

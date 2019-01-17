@@ -11,7 +11,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     [SerializeField]
     TextAsset assetToLoad;
 
-    LevelInfo thisLevelInfos;
+    public LevelInfo thisLevelInfos;
 
     [SerializeField]
     GameObject squarePrefab;
@@ -22,7 +22,10 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     [SerializeField]
     CustomLevelEditor_SelectIcon selectIcon;
 
-    GameObject selectedSquare = null;
+    [SerializeField]
+    PlayerEditor playerEditor;
+
+    public GameObject selectedSquare = null;
 
     string dataPath;
 
@@ -32,7 +35,9 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     private void Awake()
     {
         selectIcon = GetComponentInChildren<CustomLevelEditor_SelectIcon>();
+        playerEditor = GetComponentInChildren<PlayerEditor>();
         selectIcon.gameObject.SetActive(false);
+        playerEditor.gameObject.SetActive(false);
         BlankLevelInfos();
         InstantiateSquares(maxRows, maxCols);
 
@@ -80,7 +85,18 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         selectedSquare = clickedSquare.gameObject;
         squaresParent.gameObject.SetActive(false);
         selectIcon.gameObject.SetActive(true);
+        //selectIcon.actualSquare = clickedSquare.gameObject;
+        selectIcon.actualColor = thisLevelInfos.squareColorMatrix[clickedSquare.colNumber][clickedSquare.rowNumber];
+        selectIcon.SetColor(selectIcon.actualColor);
         Debug.Log("clicked on: " + clickedSquare.colNumber + " " + clickedSquare.rowNumber);
+    }
+
+    public void UpdateLevelInfos(int matrixValue, int colorValue)
+    {
+        int col = selectedSquare.GetComponent<Square2D>().colNumber;
+        int row = selectedSquare.GetComponent<Square2D>().rowNumber;
+        thisLevelInfos.squareMatrix[col][row] = matrixValue;
+        thisLevelInfos.squareColorMatrix[col][row] = colorValue;
     }
 
     private void ActivateSquares()
@@ -239,9 +255,9 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
             switch (matrixValue)
             {
                 case 999:
+                    square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
                     break;
                 case 666:
-                    Debug.Log(666);
                     square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
                     toChange = square.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color;
                     toChange.a = .3f;
@@ -249,6 +265,19 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                     //invisibile!
                     break;
                 case 100:
+                    // THIS IS FUCKED UP!!! I also have to erase the previous one!!!
+                    square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
+                    if (selectedSquare != null) {
+                        squaresParent.gameObject.SetActive(false);
+                        playerEditor.gameObject.SetActive(true);
+                        playerEditor.ArrangePlayerEditor(thisLevelInfos.playerForm);
+                    } else
+                    {
+                        selectedSquare = square;
+                        playerEditor.ExportPlayerPicture();
+                        playerEditor.ArrangePlayerEditor(thisLevelInfos.playerForm);
+                        selectedSquare = null;
+                    }
                     break;
                 case 101:
                     break;

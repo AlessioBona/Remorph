@@ -22,6 +22,8 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     [SerializeField]
     CustomLevelEditor_SelectIcon selectIcon;
 
+    GameObject selectedSquare = null;
+
     string dataPath;
 
     int maxRows = 8;
@@ -33,9 +35,10 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         selectIcon.gameObject.SetActive(false);
         BlankLevelInfos();
         InstantiateSquares(maxRows, maxCols);
-        ActivateSquares();
+
         SetDataPath();
         SetSquaresFromLevelInfo();
+        ActivateSquares();
 
     }
 
@@ -74,6 +77,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
 
     public void SquareClicked(Square2D clickedSquare)
     {
+        selectedSquare = clickedSquare.gameObject;
         squaresParent.gameObject.SetActive(false);
         selectIcon.gameObject.SetActive(true);
         Debug.Log("clicked on: " + clickedSquare.colNumber + " " + clickedSquare.rowNumber);
@@ -107,10 +111,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         }
     }
 
-    public void UpdateSquare(int selected, int color)
-    {
-        Debug.Log("update a Square to " + selected + " " + color);
-    }
+
 
 
     private void RefreshLayout()
@@ -196,72 +197,69 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
             thisLevelInfos = levelInfo;
         }
 
-        //for(int i = 0; i < 4; i++)
-        //{
-        //    for(int e = 0; e < 8; e++)
-        //    {
-        //        Debug.Log(thisLevelInfos.squareMatrix[i][e]);
-        //    }
-        //}
-
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    for (int e = 0; e < 8; e++)
-        //    {
-        //        Debug.Log(thisLevelInfos.squareColorMatrix[i][e]);
-        //    }
-        //}
-
-        //Debug.Log(thisLevelInfos.levelName);
-        //Debug.Log(thisLevelInfos.playerForm[0][0]);
-
-        
-
-        
-
         for (int a = 0; a < linesRows.Count; a++)
             {
                 for (int b = 0; b < linesRows[a].Count; b++)
                 {
                     int thisInt = thisLevelInfos.squareMatrix[a][b];
 
-                Debug.Log(linesRows[a][b]);
+                    UpdateSquare(thisInt, thisLevelInfos.squareColorMatrix[a][b], linesRows[a][b]);
 
-                if (thisInt >= 0 && thisInt <= 17)
-                {
-
-                    linesRows[a][b].GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = selectIcon.iconSprites[thisInt];
-                    linesRows[a][b].GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().color = selectIcon.spriteColors[thisLevelInfos.squareColorMatrix[a][b]];
-
-                }
-                else
-                {
-
-                    switch (thisInt)
-                    {
-                        case 999:
-                            break;
-                        case 666:
-                            Debug.Log(666);
-                            linesRows[a][b].SetActive(false);
-                            // il problema è che se poi si riallarga... si riattiva!!!
-                            //quindi bisogna inserire lì un controllo!
-                            break;
-                        case 100:
-                            break;
-                        case 101:
-                            break;
-                        default:
-                            
-                            break;
-
-                    }
-
-                }
+                
                 }
             
 
         }
+    }
+
+
+    
+
+    public void UpdateSquare(int matrixValue, int colorMatrixValue, GameObject square = null)
+    {
+        if(square == null)
+        {
+            square = selectedSquare;
+        }
+
+        Color toChange = square.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color;
+        toChange.a = 1f;
+        square.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color = toChange;
+
+        if (matrixValue >= 0 && matrixValue <= 17)
+        {
+
+            square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = selectIcon.iconSprites[matrixValue];
+            square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().color = selectIcon.spriteColors[colorMatrixValue];
+
+        }
+        else
+        {
+
+            switch (matrixValue)
+            {
+                case 999:
+                    break;
+                case 666:
+                    Debug.Log(666);
+                    square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
+                    toChange = square.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color;
+                    toChange.a = .3f;
+                    square.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color = toChange;
+                    //invisibile!
+                    break;
+                case 100:
+                    break;
+                case 101:
+                    break;
+                default:
+
+                    break;
+
+            }
+
+        }
+
     }
 
     public void SaveLevelInfos()

@@ -18,6 +18,8 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
     [SerializeField]
     public Sprite[] iconSprites;
 
+    public Square actualSquare;
+
     private void Awake()
     {
         editorFrame = GetComponentInParent<CustomLevelEditor_Frame>();
@@ -53,6 +55,9 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
         newPosition.x -= scaleUnit * 3;
         newPosition.y += scaleUnit * 5;
         GameObject noSquare = Instantiate(squarePrefab, newPosition, squaresParent.transform.rotation, squaresParent.transform);
+        Color toChange = noSquare.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color;
+        toChange.a = .3f;
+        noSquare.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color = toChange;
         noSquare.transform.localPosition = newPosition;
         noSquare.transform.localScale = new Vector3(3f, 3f, 0f);
         Button noSquareButton = noSquare.gameObject.AddComponent<Button>();
@@ -113,6 +118,7 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
             GameObject newSquare = Instantiate(squarePrefab, newPosition, squaresParent.transform.rotation, squaresParent.transform);
             newSquare.transform.localPosition = newPosition;
             newSquare.transform.localScale = new Vector3(3f, 3f, 0f);
+            newSquare.GetComponent<Square2D>().backGround.GetComponent<SpriteRenderer>().color = spriteColors[c];
 
             Button thisButton = newSquare.gameObject.AddComponent<Button>();
 
@@ -169,9 +175,9 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
 
     public void SelectionDone(int selected)
     {
-        
         editorFrame.squaresParent.gameObject.SetActive(true);
         this.gameObject.SetActive(false);
+
         editorFrame.UpdateSquare(selected, actualColor);
     }
 }

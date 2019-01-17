@@ -39848,6 +39848,9 @@ MonoBehaviour:
   squarePrefab: {fileID: 1524437301592908, guid: 65e80a316d95efb47a21c28936bc4977,
     type: 2}
   squaresParent: {fileID: 773376686}
+  selectIcon: {fileID: 0}
+  iconSprites:
+  - {fileID: 21300000, guid: 3ab22c248e52c834e9464af51d8679f4, type: 3}
 --- !u!1 &1679646135
 GameObject:
   m_ObjectHideFlags: 0
@@ -49999,7 +50002,18 @@ MonoBehaviour:
   customOnClickSound: 0
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1664472660}
+        m_MethodName: SetSquaresFromLevelInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onClickAnimationType: 0

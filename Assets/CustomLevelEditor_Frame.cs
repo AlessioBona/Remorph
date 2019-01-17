@@ -19,6 +19,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     [SerializeField]
     public Transform squaresParent;
 
+    [SerializeField]
     CustomLevelEditor_SelectIcon selectIcon;
 
     string dataPath;
@@ -34,6 +35,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         InstantiateSquares(maxRows, maxCols);
         ActivateSquares();
         SetDataPath();
+        SetSquaresFromLevelInfo();
 
     }
 
@@ -42,13 +44,13 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
 
     private void InstantiateSquares(int rows, int cols)
     {
-        for (int r = 0; r < rows; r++)
+        for (int c = 0; c < cols; c++)
         {
             
-            List<GameObject> newRow = new List<GameObject>();
-            linesRows.Add(newRow);
+            List<GameObject> newCol = new List<GameObject>();
+            linesRows.Add(newCol);
 
-            for (int c = 0; c < cols; c++)
+            for (int r = 0; r < rows; r++)
             {
                 Vector3 newPosition = new Vector3(0f, 0f, 0f);
                 //newPosition.x += (cols - 1) * -scaleUnit + c * scaleUnit*2;
@@ -58,7 +60,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                 GameObject newSquare = Instantiate(squarePrefab, newPosition, squaresParent.transform.rotation, squaresParent.transform);
                 newSquare.transform.localPosition = newPosition;
                 newSquare.transform.localScale = new Vector3(3f, 3f, 0f);
-                linesRows[r].Add(newSquare);
+                linesRows[c].Add(newSquare);
                 newSquare.GetComponent<Square2D>().rowNumber = r;
                 newSquare.GetComponent<Square2D>().colNumber = c;
                 Button thisButton = newSquare.gameObject.AddComponent<Button>();
@@ -74,7 +76,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     {
         squaresParent.gameObject.SetActive(false);
         selectIcon.gameObject.SetActive(true);
-        Debug.Log("clicked on: " + clickedSquare.rowNumber + " " + clickedSquare.colNumber);
+        Debug.Log("clicked on: " + clickedSquare.colNumber + " " + clickedSquare.rowNumber);
     }
 
     private void ActivateSquares()
@@ -96,10 +98,10 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
             {
                 if (r < thisLevelInfos.rows && c < thisLevelInfos.cols)
                 {
-                    linesRows[r][c].SetActive(true);
+                    linesRows[c][r].SetActive(true);
                 } else
                 {
-                    linesRows[r][c].SetActive(false);
+                    linesRows[c][r].SetActive(false);
                 }
             }
         }
@@ -175,10 +177,91 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         thisLevelInfos = new LevelInfo();
     }
 
-    public void ImportLevelInfos()
+    public LevelInfo ImportLevelInfos()
     {
         // va connesso ai files in json
-        LevelInfo thisLevelInfos = JsonConvert.DeserializeObject<LevelInfo>(assetToLoad.text);
+        LevelInfo levelInfos = JsonConvert.DeserializeObject<LevelInfo>(assetToLoad.text);
+        return levelInfos;
+    }
+
+    public Sprite[] iconSprites;
+
+    public void SetSquaresFromLevelInfo()
+    {
+        thisLevelInfos = null;
+
+        LevelInfo levelInfo = ImportLevelInfos();
+        if (levelInfo != null)
+        {
+            thisLevelInfos = levelInfo;
+        }
+
+        //for(int i = 0; i < 4; i++)
+        //{
+        //    for(int e = 0; e < 8; e++)
+        //    {
+        //        Debug.Log(thisLevelInfos.squareMatrix[i][e]);
+        //    }
+        //}
+
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    for (int e = 0; e < 8; e++)
+        //    {
+        //        Debug.Log(thisLevelInfos.squareColorMatrix[i][e]);
+        //    }
+        //}
+
+        //Debug.Log(thisLevelInfos.levelName);
+        //Debug.Log(thisLevelInfos.playerForm[0][0]);
+
+        
+
+        
+
+        for (int a = 0; a < linesRows.Count; a++)
+            {
+                for (int b = 0; b < linesRows[a].Count; b++)
+                {
+                    int thisInt = thisLevelInfos.squareMatrix[a][b];
+
+                Debug.Log(linesRows[a][b]);
+
+                if (thisInt >= 0 && thisInt <= 17)
+                {
+
+                    linesRows[a][b].GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = selectIcon.iconSprites[thisInt];
+                    linesRows[a][b].GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().color = selectIcon.spriteColors[thisLevelInfos.squareColorMatrix[a][b]];
+
+                }
+                else
+                {
+
+                    switch (thisInt)
+                    {
+                        case 999:
+                            break;
+                        case 666:
+                            Debug.Log(666);
+                            linesRows[a][b].SetActive(false);
+                            // il problema è che se poi si riallarga... si riattiva!!!
+                            //quindi bisogna inserire lì un controllo!
+                            break;
+                        case 100:
+                            break;
+                        case 101:
+                            break;
+                        default:
+                            
+                            break;
+
+                    }
+
+                }
+                }
+            
+
+        }
     }
 
     public void SaveLevelInfos()

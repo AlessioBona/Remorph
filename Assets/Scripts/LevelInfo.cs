@@ -10,7 +10,11 @@ public class LevelInfo {
     public int cols { get; set; }
     public int startCol { get; set; }
     public int startRow { get; set; }
-    public List<List<int>> squareMatrix { get; set; } //in NewRoundManager: squaresData
+    //public List<List<int>> squareMatrix { get; set; } //in NewRoundManager: squaresData
+    //public List<List<int>> squareColorMatrix { get; set; } //in NewRoundManager: squaresData
+    public int[][] squareMatrix { get; set; } //in NewRoundManager: squaresData
+    public int[][] squareColorMatrix { get; set; } //in NewRoundManager: squaresData
+
     //public int[][][] playerForm { get; set; }
     public int[][] playerForm { get; set; }
 
@@ -18,9 +22,50 @@ public class LevelInfo {
     {
         rows = 1;
         cols = 1;
-        squareMatrix = new List<List<int>>();
-        squareMatrix.Add(new List<int>());
-        squareMatrix[0].Add(999);
+        levelName = "un nome";
+
+        squareMatrix = new int[4][];
+        for (int i = 0; i < 4; i++)
+        {
+            squareMatrix[i] = new int[8];
+            for (int e = 0; e < 8; e++)
+            {
+                squareMatrix[i][e] = 999;
+            }
+        }
+
+        squareColorMatrix = new int[4][];
+        for (int i = 0; i < 4; i++)
+        {
+            squareColorMatrix[i] = new int[8];
+            for (int e = 0; e < 8; e++)
+            {
+                squareColorMatrix[i][e] = 0;
+            }
+        }
+
+
+        //squareMatrix = new List<List<int>>();
+        //for(int i = 0; i < 4; i++)
+        //{
+        //    squareMatrix.Add(new List<int>());
+
+        //    for(int e = 0; e < 8; e++)
+        //    {
+        //        squareMatrix[i].Add(999);
+        //    }
+        //}
+
+        //squareColorMatrix = new List<List<int>>();
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    squareColorMatrix.Add(new List<int>());
+
+        //    for (int e = 0; e < 8; e++)
+        //    {
+        //        squareColorMatrix[i].Add(0);
+        //    }
+        //}
 
         //standard PLAYER
         playerForm = new int[3][];
@@ -28,7 +73,7 @@ public class LevelInfo {
         {
             playerForm[i] = new int[2];
             playerForm[i][0] = i*2;
-            playerForm[i][0] = i*2 + 1;
+            playerForm[i][1] = i*2 + 1;
         }
 
         // initialize standard player

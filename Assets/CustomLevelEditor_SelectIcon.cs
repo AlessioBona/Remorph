@@ -13,10 +13,11 @@ public class CustomLevelEditor_SelectIcon : MonoBehaviour
     Transform squaresParent;
 
     [SerializeField]
-    Color[] spriteColors = { Color.red, Color.blue, Color.yellow };
+    public Color[] spriteColors = { Color.red, Color.blue, Color.yellow };
 
     [SerializeField]
-    Sprite[] iconSprites;
+    public Sprite[] iconSprites;
+
     private void Awake()
     {
         editorFrame = GetComponentInParent<CustomLevelEditor_Frame>();

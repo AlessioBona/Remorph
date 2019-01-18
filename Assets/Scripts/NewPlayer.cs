@@ -13,6 +13,7 @@ public class NewPlayer : MonoBehaviour {
     public GameObject squaresParent;
     public int columns;
     public int rows;
+    // here are the three parts!
     public GameObject[] parts;
     public Transform RayCaster;
 

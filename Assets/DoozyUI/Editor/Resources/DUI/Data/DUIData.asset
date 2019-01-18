@@ -21,6 +21,7 @@ MonoBehaviour:
       - LevelEditorFrame
       - LevelEditorSelector
       - LevelSelect
+      - LoadScreen
       - MainMenu
       - NewLevelName
       - PlayerEditor

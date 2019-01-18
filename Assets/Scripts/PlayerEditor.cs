@@ -267,6 +267,12 @@ public class PlayerEditor : MonoBehaviour {
 
         ExportPlayerForm();
         ExportPlayerPicture();
+        //eventually update shadow
+        levelEditorFrame.UpdateShadow();
+
+
+
+        
     }
 
 }

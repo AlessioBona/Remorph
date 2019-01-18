@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementCategory: MyUI
-  elementName: BackGround
+  elementName: LoadScreen
   LANDSCAPE: 1
   PORTRAIT: 1
   startHidden: 1
@@ -7397,7 +7397,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 0
+  m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
@@ -9846,7 +9846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementCategory: MyUI
-  elementName: BackGround
+  elementName: LoadScreen
   LANDSCAPE: 1
   PORTRAIT: 1
   startHidden: 0
@@ -10181,7 +10181,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 99
+  m_SortingOrder: 250
   m_TargetDisplay: 0
 --- !u!1 &340316670
 GameObject:
@@ -15075,7 +15075,7 @@ MonoBehaviour:
   elementName: MainMenu
   LANDSCAPE: 1
   PORTRAIT: 1
-  startHidden: 1
+  startHidden: 0
   animateAtStart: 0
   disableWhenHidden: 0
   dontDisableCanvasWhenHidden: 0
@@ -40832,8 +40832,8 @@ MonoBehaviour:
   elementName: LevelEditorFrame
   LANDSCAPE: 1
   PORTRAIT: 1
-  startHidden: 0
-  animateAtStart: 1
+  startHidden: 1
+  animateAtStart: 0
   disableWhenHidden: 0
   dontDisableCanvasWhenHidden: 0
   disableGraphicRaycaster: 0
@@ -41744,7 +41744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementCategory: MyUI
-  elementName: BackGround
+  elementName: LoadScreen
   LANDSCAPE: 1
   PORTRAIT: 1
   startHidden: 1
@@ -42079,7 +42079,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 98
+  m_SortingOrder: 250
   m_TargetDisplay: 0
 --- !u!1 &1732758483
 GameObject:
@@ -51474,8 +51474,8 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1664472660}
-        m_MethodName: SetSquaresFromLevelInfo
+      - m_Target: {fileID: 940863806}
+        m_MethodName: TryLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -53021,7 +53021,7 @@ MonoBehaviour:
     addToNavigationHistory: 1
     show:
     - category: MyUI
-      name: LevelEditorSelector
+      name: LevelEditorFrame
     hide:
     - category: MyUI
       name: MainMenu

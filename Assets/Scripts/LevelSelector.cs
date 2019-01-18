@@ -32,6 +32,23 @@ public class LevelSelector : MonoBehaviour {
 
     }
 
+    public void TryLevel()
+    {
+        UIManager.ShowUiElement("LoadScreen", "MyUI");
+        StartCoroutine(ActuallyTryLevel());
+    }
+
+    IEnumerator ActuallyTryLevel()
+    {
+        yield return new WaitForSeconds(.7f);
+        UIManager.HideUiElement("MainMenu", "MyUI");
+        UIManager.HideUiElement("LevelEditorFrame", "MyUI");
+        UIManager.SendGameEvent("LoadLevel_999");
+        //ist this useful?
+        PlayerPrefs.SetInt(LOADED_LEVEL, 999);
+        PlayerPrefs.Save();
+    }
+
     public void LoadNextLevel()
     {
         UIManager.ShowUiElement("LoadScreen", "MyUI");

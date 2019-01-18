@@ -241,7 +241,7 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
         UpdateAllSquares();
     }
 
-    private void UpdateAllSquares()
+    public void UpdateAllSquares()
     {
         for (int a = 0; a < linesRows.Count; a++)
         {
@@ -250,6 +250,24 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                 int thisInt = thisLevelInfos.squareMatrix[a][b];
 
                 UpdateSquare(thisInt, thisLevelInfos.squareColorMatrix[a][b], linesRows[a][b]);
+
+            }
+
+
+        }
+    }
+
+    public void UpdateShadow()
+    {
+        for (int a = 0; a < linesRows.Count; a++)
+        {
+            for (int b = 0; b < linesRows[a].Count; b++)
+            {
+                if (thisLevelInfos.squareMatrix[a][b] == 101)
+                {
+                    selectedSquare = linesRows[a][b];
+                    playerEditor.ExportPlayerShadow();
+                }
 
             }
 

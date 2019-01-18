@@ -19,9 +19,15 @@ public class PlayerEditor : MonoBehaviour {
     [SerializeField]
     CustomLevelEditor_Frame levelEditorFrame;
 
+    PlayerSimulacrum simulacrum;
+
+    PlayerShadow shadow;
+
     private void Awake()
     {
         levelEditorFrame = GetComponentInParent<CustomLevelEditor_Frame>();
+        simulacrum = FindObjectOfType<PlayerSimulacrum>();
+        shadow = FindObjectOfType<PlayerShadow>();
 
         gridPlane = new Plane(-Vector3.forward, Vector3.zero);
 
@@ -38,6 +44,7 @@ public class PlayerEditor : MonoBehaviour {
 
         RepositionDotsAndSquare();
     }
+
 
 
     // player: int[3][2][2] : block, dot, coords
@@ -67,7 +74,7 @@ public class PlayerEditor : MonoBehaviour {
 
     public void ExportPlayerPicture()
     {
-        PlayerSimulacrum simulacrum = FindObjectOfType<PlayerSimulacrum>();
+        simulacrum.gameObject.SetActive(true);
 
         if (simulacrum.GetComponentInChildren<EditorSquare>())
         {
@@ -84,6 +91,30 @@ public class PlayerEditor : MonoBehaviour {
         }
 
         simulacrum.transform.position = levelEditorFrame.selectedSquare.transform.position;
+    }
+
+    public void ExportPlayerShadow()
+    {
+
+        shadow.gameObject.SetActive(true);
+
+        if (shadow.GetComponentInChildren<EditorSquare>())
+        {
+            EditorSquare[] toErease = shadow.GetComponentsInChildren<EditorSquare>();
+
+            foreach (EditorSquare ciao in toErease)
+            {
+                GameObject.Destroy(ciao.gameObject);
+            }
+        }
+
+        foreach (EditorSquare block in block_squares)
+        {
+            GameObject fakeBlock = Instantiate(block.gameObject, shadow.transform);
+            fakeBlock.GetComponent<SpriteRenderer>().color = Color.grey;
+        }
+
+        shadow.transform.position = levelEditorFrame.selectedSquare.transform.position;
     }
 
     private void RepositionDotsAndSquare()

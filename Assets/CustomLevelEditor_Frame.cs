@@ -25,6 +25,9 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     [SerializeField]
     PlayerEditor playerEditor;
 
+    PlayerSimulacrum simulacrum;
+    PlayerShadow shadow;
+
     public GameObject selectedSquare = null;
 
     string dataPath;
@@ -36,6 +39,8 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
     {
         selectIcon = GetComponentInChildren<CustomLevelEditor_SelectIcon>();
         playerEditor = GetComponentInChildren<PlayerEditor>();
+        simulacrum = FindObjectOfType<PlayerSimulacrum>();
+        shadow = FindObjectOfType<PlayerShadow>();
         selectIcon.gameObject.SetActive(false);
         playerEditor.gameObject.SetActive(false);
         BlankLevelInfos();
@@ -119,9 +124,29 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                 if (r < thisLevelInfos.rows && c < thisLevelInfos.cols)
                 {
                     linesRows[c][r].SetActive(true);
+
+                    if (thisLevelInfos.squareMatrix[c][r] == 100)
+                    {
+                        simulacrum.gameObject.SetActive(true);
+
+                    }
+                    else if (thisLevelInfos.squareMatrix[c][r] == 101)
+                    {
+                        shadow.gameObject.SetActive(true);
+                    }
+
                 } else
                 {
                     linesRows[c][r].SetActive(false);
+
+                    if(thisLevelInfos.squareMatrix[c][r] == 100)
+                    {
+                        simulacrum.gameObject.SetActive(false);
+
+                    } else if (thisLevelInfos.squareMatrix[c][r] == 101)
+                    {
+                        shadow.gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -213,23 +238,39 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
             thisLevelInfos = levelInfo;
         }
 
+        UpdateAllSquares();
+    }
+
+    private void UpdateAllSquares()
+    {
         for (int a = 0; a < linesRows.Count; a++)
+        {
+            for (int b = 0; b < linesRows[a].Count; b++)
             {
-                for (int b = 0; b < linesRows[a].Count; b++)
-                {
-                    int thisInt = thisLevelInfos.squareMatrix[a][b];
+                int thisInt = thisLevelInfos.squareMatrix[a][b];
 
-                    UpdateSquare(thisInt, thisLevelInfos.squareColorMatrix[a][b], linesRows[a][b]);
+                UpdateSquare(thisInt, thisLevelInfos.squareColorMatrix[a][b], linesRows[a][b]);
 
-                
-                }
-            
+            }
+
 
         }
     }
 
+    private void OnlyOneSquare(int matrixValue, GameObject square)
+    {
+        for (int a = 0; a < linesRows.Count; a++)
+        {
+            for (int b = 0; b < linesRows[a].Count; b++)
+            {
+                if(matrixValue == thisLevelInfos.squareMatrix[a][b] && square != linesRows[a][b])
+                {
+                    thisLevelInfos.squareMatrix[a][b] = 999;
+                }
+            }
+        }
+    }
 
-    
 
     public void UpdateSquare(int matrixValue, int colorMatrixValue, GameObject square = null)
     {
@@ -265,8 +306,8 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                     //invisibile!
                     break;
                 case 100:
-                    // THIS IS FUCKED UP!!! I also have to erase the previous one!!!
                     square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
+                    OnlyOneSquare(100, square);
                     if (selectedSquare != null) {
                         squaresParent.gameObject.SetActive(false);
                         playerEditor.gameObject.SetActive(true);
@@ -274,12 +315,27 @@ public class CustomLevelEditor_Frame : MonoBehaviour {
                     } else
                     {
                         selectedSquare = square;
-                        playerEditor.ExportPlayerPicture();
                         playerEditor.ArrangePlayerEditor(thisLevelInfos.playerForm);
+                        playerEditor.ExportPlayerPicture();
                         selectedSquare = null;
                     }
                     break;
                 case 101:
+                    square.GetComponent<Square2D>().iconSprite.GetComponent<SpriteRenderer>().sprite = null;
+                    OnlyOneSquare(101, square);
+
+                    if (selectedSquare != null)
+                    {
+                        playerEditor.ExportPlayerShadow();
+                    }
+                    else
+                    {
+                        selectedSquare = square;
+                        playerEditor.ExportPlayerShadow();
+                        selectedSquare = null;
+                    }
+
+                    
                     break;
                 default:
 
